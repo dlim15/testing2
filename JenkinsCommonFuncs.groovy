@@ -231,8 +231,8 @@ def runTest( testName, toBeRun, prop, pureTestName, graphOnly, testCategory, gra
 
                   }
                     postResult( prop, graphOnly )
-                    resultURL = postLogs( testName, prop[ "WikiPrefix" ] )
                   if( ! graphOnly ){
+                    resultURL = postLogs( testName, prop[ "WikiPrefix" ] )
                     analyzeResult( prop, workSpace, pureTestName, testName, resultURL, isSCPF ? "" : testCategory[ testName ][ 'wiki_link' ], isSCPF )
                   }
               }
