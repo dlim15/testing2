@@ -156,7 +156,7 @@ def isPostingResult( prop ){
 }
 def postResult( prop, graphOnly ){
   if( graphOnly || isPostingResult( prop ) ){
-    def post = build job: "postjob_" + ( graphOnly ? machine : machineType[ testType ] ), propagate: false
+    def post = build job: "postjob-" + ( graphOnly ? machine : machineType[ testType ] ), propagate: false
   }
 }
 def postLogs( testName, prefix ){
