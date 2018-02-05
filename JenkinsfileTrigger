@@ -143,8 +143,8 @@ for( String test in testcases.keySet() ){
 def finalList = [:]
 finalList[ "VM" ] = runTestSeq( runTest[ "VM" ] )
 finalList[ "BM" ] = runTestSeq( runTest[ "BM" ] )
-//parallel finalList
-finalList[ "VM" ].call()
+parallel finalList
+//finalList[ "VM" ].call()
 
 def testDivider( today ){
     switch ( today ) {
