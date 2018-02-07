@@ -16,9 +16,11 @@ def generateTestList( tests ){
     testList = testList[ 0..-2 ]
 }
 def getTestList( tests ){
+    print "4"
     list = ""
     for( String test : tests.keySet() )
         list += test + ","
-    return list[ 0..-2 ]
+  print "5"  
+  return list[ 0..-2 ]
 }
 return this;
