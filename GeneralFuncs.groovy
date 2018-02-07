@@ -9,12 +9,6 @@ def basicGraphPart( rFileName, host, port, user, pass, subject, branchName ){
 def initBasicVars(){
   rScriptLocation = "~/OnosSystemTest/TestON/JenkinsFile/scripts/"
 }
-def generateTestList( tests ){
-    testList = ""
-    for( String test : tests.keySet() )
-        testList += test + ","
-    testList = testList[ 0..-2 ]
-}
 def getTestList( tests ){
     print "4"
     list = ""
