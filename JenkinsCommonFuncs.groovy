@@ -268,7 +268,7 @@ def databaseAndGraph( prop, testName, graphOnly, graph_generator_file, graph_sav
       }
   }
 }
-def generateCategoryStatsGraph( manualRun, postresult, file, type, branch, testListPart, save_path ){
+def generateCategoryStatsGraph( manualRun, postresult, file, type, branch, testListPart, save_path, pieTestList ){
 
   if( isPostingResult( manualRun, postresult ) ){
     node( testMachine ){
@@ -282,11 +282,14 @@ def generateCategoryStatsGraph( manualRun, postresult, file, type, branch, testL
               print getOverallPieGraph( file, host, port, user, pass, branch, type, testList, save_path )
               sh '''#!/bin/bash
               ''' + generalFuncs.basicGraphPart( file, host, port, user, pass, type, branch ) + " \"" + testListPart + "\" latest " + " " + save_path + '''
-              ''' + getOverallPieGraph( file, host, port, user, pass, branch, type, testList, save_path )
+              ''' + getOverallPieGraph( file, host, port, user, pass, branch, type, pieTestList, save_path )
           }
         }
       postResult( [], true )
     }
+}
+def makeTestList( list, commaNeeded ){
+  return generalFuncs.getTestList( list ) + ( commaNeeded ? "," : "" )
 }
 def createStatsList( testCategory, list, semiNeeded ){
   return testCategory + "-" + generalFuncs.getTestList( list ) + ( semiNeeded ? ";" : "" )
