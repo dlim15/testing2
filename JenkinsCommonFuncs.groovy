@@ -278,11 +278,9 @@ def generateCategoryStatsGraph( manualRun, postresult, stat_file, pie_file, type
           string( credentialsId: 'db_user', variable: 'user' ),
           string( credentialsId: 'db_host', variable: 'host' ),
           string( credentialsId: 'db_port', variable: 'port' ) ] ) {
-              print pieTestListPart
-              print generalFuncs.basicGraphPart( generalFuncs.rScriptLocation + stat_file, host, port, user, pass, type, branch ) + " \"" + testListPart + "\" latest " + " " + save_path
               print getOverallPieGraph( generalFuncs.rScriptLocation + pie_file, host, port, user, pass, branch, type, pieTestListPart, save_path )
               sh '''#!/bin/bash
-              ''' + generalFuncs.basicGraphPart( generalFuncs.rScriptLocation + stat_file, host, port, user, pass, type, branch ) + " \"" + testListPart + "\" latest " + " " + save_path + '''
+              ''' + generalFuncs.basicGraphPart( generalFuncs.rScriptLocation + stat_file, host, port, user, pass, type, branch ) + " \"" + testListPart + "\" latest " + save_path + '''
               ''' + getOverallPieGraph( generalFuncs.rScriptLocation + pie_file, host, port, user, pass, branch, type, pieTestListPart, save_path )
           }
         }
@@ -290,7 +288,7 @@ def generateCategoryStatsGraph( manualRun, postresult, stat_file, pie_file, type
     }
 }
 def makeTestList( list, commaNeeded ){
-  return "" + generalFuncs.getTestList( list ) + ( commaNeeded ? "," : "" )
+  return generalFuncs.getTestList( list ) + ( commaNeeded ? "," : "" )
 }
 def createStatsList( testCategory, list, semiNeeded ){
   return testCategory + "-" + generalFuncs.getTestList( list ) + ( semiNeeded ? ";" : "" )
@@ -313,9 +311,8 @@ def generateOverallGraph( prop, testCategory, graph_saved_directory ){
       postResult( prop, false )
     }
 }
-def getOverallPieGraph( file, host, port, user, pass, branch, type, list, path ){
-   print list
-   return generalFuncs.basicGraphPart( file, host, port, user, pass, type, branch ) + " \"" + list + "\" latest y " + path
+def getOverallPieGraph( file, host, port, user, pass, branch, type, testList, path ){
+   return generalFuncs.basicGraphPart( file, host, port, user, pass, type, branch ) + " \"" + testList + "\" latest y " + path
 }
 def sqlCommand( testName ){
   return "\"INSERT INTO " + table_name + " VALUES('\$DATE','" + result_name + "','" + testName + "',\$BUILD_NUMBER, '\$ONOSBranch', \$line);\" "
