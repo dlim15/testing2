@@ -289,7 +289,7 @@ def generateCategoryStatsGraph( manualRun, postresult, stat_file, pie_file, type
     }
 }
 def makeTestList( list, commaNeeded ){
-  return generalFuncs.getTestList( list ) + ( commaNeeded ? "," : "" )
+  return "" + generalFuncs.getTestList( list ) + ( commaNeeded ? "," : "" )
 }
 def createStatsList( testCategory, list, semiNeeded ){
   return testCategory + "-" + generalFuncs.getTestList( list ) + ( semiNeeded ? ";" : "" )
