@@ -502,6 +502,7 @@ def generateStatGraph(){
         pieTestList += funcs.makeTestList( AllTheTests[ "FUNC" ], true ) + 
                        funcs.makeTestList( AllTheTests[ "HA" ], true ) +
                        funcs.makeTestList( AllTheTests[ "USECASE" ], false )
+        print pieTestList
         funcs.generateCategoryStatsGraph( "false", "true", stat_graph_generator_file, pie_graph_generator_file, "ALL", onos_b, testListPart, graph_saved_directory, pieTestList )
     }
 }
