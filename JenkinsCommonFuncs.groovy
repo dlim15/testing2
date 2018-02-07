@@ -268,7 +268,7 @@ def databaseAndGraph( prop, testName, graphOnly, graph_generator_file, graph_sav
       }
   }
 }
-def generateCategoryStatsGraph( manualRun, postresult, stat_file, pie_file, type, branch, testListPart, save_path, pieTestList ){
+def generateCategoryStatsGraph( manualRun, postresult, stat_file, pie_file, type, branch, testListPart, save_path, pieTestListPart ){
 
   if( isPostingResult( manualRun, postresult ) ){
     node( testMachine ){
@@ -278,11 +278,12 @@ def generateCategoryStatsGraph( manualRun, postresult, stat_file, pie_file, type
           string( credentialsId: 'db_user', variable: 'user' ),
           string( credentialsId: 'db_host', variable: 'host' ),
           string( credentialsId: 'db_port', variable: 'port' ) ] ) {
+              print pieTestListPart
               print generalFuncs.basicGraphPart( generalFuncs.rScriptLocation + stat_file, host, port, user, pass, type, branch ) + " \"" + testListPart + "\" latest " + " " + save_path
-              print getOverallPieGraph( generalFuncs.rScriptLocation + pie_file, host, port, user, pass, branch, type, testList, save_path )
+              print getOverallPieGraph( generalFuncs.rScriptLocation + pie_file, host, port, user, pass, branch, type, pieTestListPart, save_path )
               sh '''#!/bin/bash
               ''' + generalFuncs.basicGraphPart( generalFuncs.rScriptLocation + stat_file, host, port, user, pass, type, branch ) + " \"" + testListPart + "\" latest " + " " + save_path + '''
-              ''' + getOverallPieGraph( generalFuncs.rScriptLocation + pie_file, host, port, user, pass, branch, type, pieTestList, save_path )
+              ''' + getOverallPieGraph( generalFuncs.rScriptLocation + pie_file, host, port, user, pass, branch, type, pieTestListPart, save_path )
           }
         }
       postResult( [], true )
