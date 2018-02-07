@@ -1,6 +1,7 @@
 #!groovy
-// This is a Jenkinsfile for a scripted pipeline for the SCPF tests
-// Define sets of tests
+
+funcs = evaluate readTrusted( 'JenkinsCommonFuncs.groovy' )
+funcs.initializeTrend( "VM" );
 previous_version = "1.12"
 before_previous_version = "1.11"
 AllTheTests=
@@ -100,6 +101,8 @@ USECASE_choices = ""
 FUNC_choices = ""
 HA_choices = ""
 SR_choices = ""
+graph_generator_file = "~/OnosSystemTest/TestON/JenkinsFile/scripts/testCategoryBuildStats.R"
+graph_saved_directory = "/var/jenkins/workspace/postjob-VM/"
 
 manually_run = params.manual_run
 post_result = params.PostResult == "true"
@@ -144,7 +147,8 @@ def finalList = [:]
 finalList[ "VM" ] = runTestSeq( runTest[ "VM" ] )
 finalList[ "BM" ] = runTestSeq( runTest[ "BM" ] )
 parallel finalList
-//finalList[ "VM" ].call()
+//finalList[ "BM" ].call()
+generateStatGraph()
 
 def testDivider( today ){
     switch ( today ) {
@@ -483,4 +487,14 @@ def postSetup( onos_branch, test_branch, onos_tag, isManual ){
         git branch'''
     }
     return result
+}
+
+def generateStatGraph(){
+    if( manually_run ){
+        testListPart = ""
+        testListPart += funcs.createStatsList( "FUNC", AllTheTests[ "FUNC" ], true )
+                        + funcs.createStatsList( "HA", AllTheTests[ "HA" ], true )
+                        + funcs.createStatsList( "USECASE", AllTheTests[ "USECASE" ], false )
+        funcs.generateCategoryStatsGraph( manually_run, false, graph_generator_file, "ALL", onos_b, testListPart, graph_saved_directory )
+    }
 }
