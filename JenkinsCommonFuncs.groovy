@@ -313,6 +313,7 @@ def generateOverallGraph( prop, testCategory, graph_saved_directory ){
     }
 }
 def getOverallPieGraph( file, host, port, user, pass, branch, type, list, path ){
+   print list
    return generalFuncs.basicGraphPart( file, host, port, user, pass, type, branch ) + " \"" + list + "\" latest y " + path
 }
 def sqlCommand( testName ){
