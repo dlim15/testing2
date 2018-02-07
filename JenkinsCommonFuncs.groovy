@@ -293,30 +293,29 @@ def createStatsList( testCategory, list, semiNeeded ){
   return testCategory + "-" + generalFuncs.getTestList( list ) + ( semiNeeded ? ";" : "" )
   println "3"
 }
+// Todo: fix this.
 def generateOverallGraph( prop, testCategory, graph_saved_directory ){
-  print "here"
-  print prop
+
   if( isPostingResult( prop[ "manualRun" ], prop[ "postResult" ] ) ){
     node( testMachine ){
-      print "there"
+
       withCredentials( [
           string( credentialsId: 'db_pass', variable: 'pass' ),
           string( credentialsId: 'db_user', variable: 'user' ),
           string( credentialsId: 'db_host', variable: 'host' ),
           string( credentialsId: 'db_port', variable: 'port' ) ] ) {
-              print generalFuncs.basicGraphPart( trend_generator_file, host, port, user, pass, testType, prop[ "ONOSBranch" ] ) + " " + generalFuncs.testList + " 20 " + graph_saved_directory
-              generalFuncs.generateTestList( testCategory )
+              testList = generalFuncs.getTestList( testCategory )
               sh '''#!/bin/bash
-              ''' + generalFuncs.basicGraphPart( trend_generator_file, host, port, user, pass, testType, prop[ "ONOSBranch" ] ) + " " + generalFuncs.testList + " 20 " + graph_saved_directory + '''
-              ''' + getOverallTrendLine( host, port, user, pass, prop, "pass" ) + '''
-              ''' + getOverallTrendLine( host, port, user, pass, prop, "plan" )
+              ''' + generalFuncs.basicGraphPart( trend_generator_file, host, port, user, pass, testType, prop[ "ONOSBranch" ] ) + " " + testList + " 20 " + graph_saved_directory + '''
+              ''' + getOverallTrendLine( host, port, user, pass, prop, "pass", testList ) + '''
+              ''' + getOverallTrendLine( host, port, user, pass, prop, "plan", testList )
           }
         }
       postResult( prop, false )
     }
 }
-def getOverallTrendLine( host, port, user, pass, prop, type ){
-   return generalFuncs.basicGraphPart( build_stats_generator_file, host, port, user, pass, testType, prop[ "ONOSBranch" ] ) + " " + generalFuncs.testList + " latest " + type + " 1 " + graph_saved_directory
+def getOverallTrendLine( host, port, user, pass, prop, type, testList ){
+   return generalFuncs.basicGraphPart( build_stats_generator_file, host, port, user, pass, testType, prop[ "ONOSBranch" ] ) + " " + testList + " latest " + type + " 1 " + graph_saved_directory
 }
 def sqlCommand( testName ){
   return "\"INSERT INTO " + table_name + " VALUES('\$DATE','" + result_name + "','" + testName + "',\$BUILD_NUMBER, '\$ONOSBranch', \$line);\" "
