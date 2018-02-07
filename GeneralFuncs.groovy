@@ -14,7 +14,8 @@ def getTestList( tests ){
     list = ""
     for( String test : tests.keySet() )
         list += test + ","
-  print "5"  
+  print "5"
+  print list[ 0..-2 ]
   return list[ 0..-2 ]
 }
 return this;
