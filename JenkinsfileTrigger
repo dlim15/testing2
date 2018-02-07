@@ -493,6 +493,6 @@ def generateStatGraph(){
         testListPart = funcs.createStatsList( "FUNC", AllTheTests[ "FUNC" ], true ) +
                         funcs.createStatsList( "HA", AllTheTests[ "HA" ], true ) +
                         funcs.createStatsList( "USECASE", AllTheTests[ "USECASE" ], false )
-        funcs.generateCategoryStatsGraph( false, true, graph_generator_file, "ALL", onos_b, testListPart, graph_saved_directory )
+        funcs.generateCategoryStatsGraph( "false", "true", graph_generator_file, "ALL", onos_b, testListPart, graph_saved_directory )
     }
 }
