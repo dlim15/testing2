@@ -305,6 +305,7 @@ def generateOverallGraph( prop, testCategory, graph_saved_directory ){
           string( credentialsId: 'db_host', variable: 'host' ),
           string( credentialsId: 'db_port', variable: 'port' ) ] ) {
               print generalFuncs.basicGraphPart( trend_generator_file, host, port, user, pass, testType, prop[ "ONOSBranch" ] ) + " " + generalFuncs.testList + " 20 " + graph_saved_directory
+              generalFuncs.generateTestList( testCategory )
               sh '''#!/bin/bash
               ''' + generalFuncs.basicGraphPart( trend_generator_file, host, port, user, pass, testType, prop[ "ONOSBranch" ] ) + " " + generalFuncs.testList + " 20 " + graph_saved_directory + '''
               ''' + getOverallTrendLine( host, port, user, pass, prop, "pass" ) + '''
