@@ -268,7 +268,7 @@ def databaseAndGraph( prop, testName, graphOnly, graph_generator_file, graph_sav
       }
   }
 }
-def generateCategoryStatsGraph( manualRun, postresult, file, type, branch, testListPart, save_path, pieTestList ){
+def generateCategoryStatsGraph( manualRun, postresult, stat_file, pie_faile, type, branch, testListPart, save_path, pieTestList ){
 
   if( isPostingResult( manualRun, postresult ) ){
     node( testMachine ){
@@ -278,11 +278,11 @@ def generateCategoryStatsGraph( manualRun, postresult, file, type, branch, testL
           string( credentialsId: 'db_user', variable: 'user' ),
           string( credentialsId: 'db_host', variable: 'host' ),
           string( credentialsId: 'db_port', variable: 'port' ) ] ) {
-              print generalFuncs.basicGraphPart( file, host, port, user, pass, type, branch ) + " \"" + testListPart + "\" latest " + " " + save_path
-              print getOverallPieGraph( file, host, port, user, pass, branch, type, testList, save_path )
+              print generalFuncs.basicGraphPart( generalFuncs.rScriptLocation + stat_file, host, port, user, pass, type, branch ) + " \"" + testListPart + "\" latest " + " " + save_path
+              print getOverallPieGraph( generalFuncs.rScriptLocation + pie_file, host, port, user, pass, branch, type, testList, save_path )
               sh '''#!/bin/bash
-              ''' + generalFuncs.basicGraphPart( file, host, port, user, pass, type, branch ) + " \"" + testListPart + "\" latest " + " " + save_path + '''
-              ''' + getOverallPieGraph( file, host, port, user, pass, branch, type, pieTestList, save_path )
+              ''' + generalFuncs.basicGraphPart( generalFuncs.rScriptLocation + stat_file, host, port, user, pass, type, branch ) + " \"" + testListPart + "\" latest " + " " + save_path + '''
+              ''' + getOverallPieGraph( generalFuncs.rScriptLocation + pie_file, host, port, user, pass, branch, type, pieTestList, save_path )
           }
         }
       postResult( [], true )
@@ -294,7 +294,6 @@ def makeTestList( list, commaNeeded ){
 def createStatsList( testCategory, list, semiNeeded ){
   return testCategory + "-" + generalFuncs.getTestList( list ) + ( semiNeeded ? ";" : "" )
 }
-// Todo: fix this.
 def generateOverallGraph( prop, testCategory, graph_saved_directory ){
 
   if( isPostingResult( prop[ "manualRun" ], prop[ "postResult" ] ) ){
