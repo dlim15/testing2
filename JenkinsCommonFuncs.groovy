@@ -268,7 +268,7 @@ def databaseAndGraph( prop, testName, graphOnly, graph_generator_file, graph_sav
       }
   }
 }
-def generateCategoryStatsGraph( manualRun, postresult, stat_file, pie_faile, type, branch, testListPart, save_path, pieTestList ){
+def generateCategoryStatsGraph( manualRun, postresult, stat_file, pie_file, type, branch, testListPart, save_path, pieTestList ){
 
   if( isPostingResult( manualRun, postresult ) ){
     node( testMachine ){
