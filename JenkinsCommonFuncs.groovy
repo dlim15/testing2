@@ -294,10 +294,10 @@ def createStatsList( testCategory, list, semiNeeded ){
   println "3"
 }
 def generateOverallGraph( prop, testCategory, graph_saved_directory ){
-
+  print "here"
   if( isPostingResult( prop[ "manualRun" ], prop[ "postResult" ] ) ){
     node( testMachine ){
-
+      print "there"
       withCredentials( [
           string( credentialsId: 'db_pass', variable: 'pass' ),
           string( credentialsId: 'db_user', variable: 'user' ),
