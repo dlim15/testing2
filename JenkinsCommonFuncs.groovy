@@ -151,11 +151,11 @@ def fetchLogs( testName ){
   fi
   cd'''
 }
-def isPostingResult( prop ){
-  return prop[ "manualRun" ] == "false" || prop[ "postResult" ] == "true"
+def isPostingResult( manual, postresult ){
+  return manual == "false" || postresult == "true"
 }
 def postResult( prop, graphOnly ){
-  if( graphOnly || isPostingResult( prop ) ){
+  if( graphOnly || isPostingResult( prop[ "manualRun" ], prop[ "postResult" ] ) ){
     def post = build job: "postjob-" + ( graphOnly ? machine : machineType[ testType ] ), propagate: false
   }
 }
@@ -192,7 +192,7 @@ def analyzeResult( prop, workSpace, testName, otherTestName, resultURL, wikiLink
   }
 }
 def publishToConfluence( prop, wikiLink, file ){
-  if( isPostingResult( prop ) ){
+  if( isPostingResult( prop[ "manualRun" ], prop[ "postResult" ] ) ){
     publishConfluence siteName: 'wiki.onosproject.org', pageName: wikiLink, spaceName: 'ONOS',
                   attachArchivedArtifacts: true,
                   editorList: [
@@ -251,7 +251,7 @@ def borrowCell( testName ){
   return result
 }
 def databaseAndGraph( prop, testName, graphOnly, graph_generator_file, graph_saved_directory ){
-  if( graphOnly || isPostingResult( prop ) ){
+  if( graphOnly || isPostingResult( prop[ "manualRun" ], prop[ "postResult" ] ) ){
       // Post Results
       withCredentials( [
           string( credentialsId: 'db_pass', variable: 'pass' ),
@@ -268,9 +268,9 @@ def databaseAndGraph( prop, testName, graphOnly, graph_generator_file, graph_sav
       }
   }
 }
-def graphPart( prop, graph_statement ){
+def generateCategoryStatsGraph( manualRun, postresult, file, type, branch, testListPart, save_path ){
 
-  if( isPostingResult( prop ) ){
+  if( isPostingResult( manualRun, postresult ) ){
     node( testMachine ){
 
       withCredentials( [
@@ -279,18 +279,33 @@ def graphPart( prop, graph_statement ){
           string( credentialsId: 'db_host', variable: 'host' ),
           string( credentialsId: 'db_port', variable: 'port' ) ] ) {
               sh '''#!/bin/bash
-              ''' + graph_statement
+              ''' +  graphPart( [], generalFuncs.basicGraphPart( file, host, port, user, pass, testType, branch ) + " \"" + testListPart + "\" latest " + " " + save_path
+          }
+        }
+      postResult( [], false )
+    }
+}
+def createStatsList( testCategory, list, semiNeeded ){
+  return testCategory + "-" + generalFuncs.getTestList( list ) + ( semiNeeded ? ";" + "" )
+}
+def generateOverallGraph( prop, testCategory, graph_saved_directory ){
+
+  if( isPostingResult( prop[ "manualRun" ], prop[ "postResult" ] ) ){
+    node( testMachine ){
+
+      withCredentials( [
+          string( credentialsId: 'db_pass', variable: 'pass' ),
+          string( credentialsId: 'db_user', variable: 'user' ),
+          string( credentialsId: 'db_host', variable: 'host' ),
+          string( credentialsId: 'db_port', variable: 'port' ) ] ) {
+              sh '''#!/bin/bash
+              ''' + generalFuncs.basicGraphPart( trend_generator_file, host, port, user, pass, testType, prop[ "ONOSBranch" ] ) + " " + generalFuncs.testList + " 20 " + graph_saved_directory + '''
+              ''' + getOverallTrendLine( host, port, user, pass, prop, "pass" ) + '''
+              ''' + getOverallTrendLine( host, port, user, pass, prop, "plan" )
           }
         }
       postResult( prop, false )
     }
-}
-def generateOverallGraph( prop, testCategory, graph_saved_directory ){
-
-  generalFuncs.generateTestList( testCategory )
-  graphPart( prop, generalFuncs.basicGraphPart( trend_generator_file, host, port, user, pass, testType, prop[ "ONOSBranch" ] ) + " " + generalFuncs.testList + " 20 " + graph_saved_directory + '''
-              ''' + getOverallTrendLine( host, port, user, pass, prop, "pass" ) + '''
-              ''' + getOverallTrendLine( host, port, user, pass, prop, "plan" ) )
 }
 def getOverallTrendLine( host, port, user, pass, prop, type ){
    return generalFuncs.basicGraphPart( build_stats_generator_file, host, port, user, pass, testType, prop[ "ONOSBranch" ] ) + " " + generalFuncs.testList + " latest " + type + " 1 " + graph_saved_directory
