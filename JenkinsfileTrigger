@@ -495,6 +495,9 @@ def generateStatGraph(){
         testListPart = funcs.createStatsList( "FUNC", AllTheTests[ "FUNC" ], true ) +
                         funcs.createStatsList( "HA", AllTheTests[ "HA" ], true ) +
                         funcs.createStatsList( "USECASE", AllTheTests[ "USECASE" ], false )
+        print funcs.makeTestList( AllTheTests[ "FUNC" ], true )
+        print funcs.makeTestList( AllTheTests[ "HA" ], true )
+        print funcs.makeTestList( AllTheTests[ "USECASE" ], true )
         pieTestList = funcs.makeTestList( AllTheTests[ "FUNC" ], true ) +
                       funcs.makeTestList( AllTheTests[ "HA" ], true ) +
                       funcs.makeTestList( AllTheTests[ "USECASE" ], false )
