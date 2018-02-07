@@ -281,7 +281,7 @@ def generateCategoryStatsGraph( manualRun, postresult, file, type, branch, testL
           string( credentialsId: 'db_host', variable: 'host' ),
           string( credentialsId: 'db_port', variable: 'port' ) ] ) {
               sh '''#!/bin/bash
-              ''' + generalFuncs.basicGraphPart( file, host, port, user, pass, testType, branch ) + " \"" + testListPart + "\" latest " + " " + save_path
+              ''' + generalFuncs.basicGraphPart( file, host, port, user, pass, type, branch ) + " \"" + testListPart + "\" latest " + " " + save_path
           }
         }
       print "c"
