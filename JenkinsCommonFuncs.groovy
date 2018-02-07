@@ -155,9 +155,7 @@ def isPostingResult( manual, postresult ){
   return manual == "false" || postresult == "true"
 }
 def postResult( prop, graphOnly ){
-  print "a"
   if( graphOnly || isPostingResult( prop[ "manualRun" ], prop[ "postResult" ] ) ){
-    print "b"
     def post = build job: "postjob-" + ( graphOnly ? machine : machineType[ testType ] ), propagate: false
   }
 }
@@ -271,28 +269,27 @@ def databaseAndGraph( prop, testName, graphOnly, graph_generator_file, graph_sav
   }
 }
 def generateCategoryStatsGraph( manualRun, postresult, file, type, branch, testListPart, save_path ){
-  print "here"
+
   if( isPostingResult( manualRun, postresult ) ){
     node( testMachine ){
-      print "there"
+
       withCredentials( [
           string( credentialsId: 'db_pass', variable: 'pass' ),
           string( credentialsId: 'db_user', variable: 'user' ),
           string( credentialsId: 'db_host', variable: 'host' ),
           string( credentialsId: 'db_port', variable: 'port' ) ] ) {
               print generalFuncs.basicGraphPart( file, host, port, user, pass, type, branch ) + " \"" + testListPart + "\" latest " + " " + save_path
+              print getOverallPieGraph( file, host, port, user, pass, branch, type, testList, save_path )
               sh '''#!/bin/bash
-              ''' + generalFuncs.basicGraphPart( file, host, port, user, pass, type, branch ) + " \"" + testListPart + "\" latest " + " " + save_path
+              ''' + generalFuncs.basicGraphPart( file, host, port, user, pass, type, branch ) + " \"" + testListPart + "\" latest " + " " + save_path + '''
+              ''' + getOverallPieGraph( file, host, port, user, pass, branch, type, testList, save_path )
           }
         }
-      print "c"
       postResult( [], true )
     }
 }
 def createStatsList( testCategory, list, semiNeeded ){
-  println "2"
   return testCategory + "-" + generalFuncs.getTestList( list ) + ( semiNeeded ? ";" : "" )
-  println "3"
 }
 // Todo: fix this.
 def generateOverallGraph( prop, testCategory, graph_saved_directory ){
@@ -308,15 +305,13 @@ def generateOverallGraph( prop, testCategory, graph_saved_directory ){
               testList = generalFuncs.getTestList( testCategory )
               sh '''#!/bin/bash
               ''' + generalFuncs.basicGraphPart( trend_generator_file, host, port, user, pass, testType, prop[ "ONOSBranch" ] ) + " " + testList + " 20 " + graph_saved_directory
-              //''' + getOverallTrendLine( host, port, user, pass, prop, "pass", testList ) + '''
-              //''' + getOverallTrendLine( host, port, user, pass, prop, "plan", testList )
           }
         }
       postResult( prop, false )
     }
 }
-def getOverallTrendLine( host, port, user, pass, prop, type, testList ){
-   return generalFuncs.basicGraphPart( build_stats_generator_file, host, port, user, pass, testType, prop[ "ONOSBranch" ] ) + " " + testList + " latest " + type + " 1 " + graph_saved_directory
+def getOverallPieGraph( file, host, port, user, pass, branch, type, testList, path ){
+   return generalFuncs.basicGraphPart( build_stats_generator_file, host, port, user, pass, type, branch ) + " \"" + testList + "\" latest y " + path
 }
 def sqlCommand( testName ){
   return "\"INSERT INTO " + table_name + " VALUES('\$DATE','" + result_name + "','" + testName + "',\$BUILD_NUMBER, '\$ONOSBranch', \$line);\" "
