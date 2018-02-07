@@ -492,6 +492,7 @@ def postSetup( onos_branch, test_branch, onos_tag, isManual ){
 def generateStatGraph(){
     if( manually_run ){
         testListPart = ""
+        println "1"
         testListPart += funcs.createStatsList( "FUNC", AllTheTests[ "FUNC" ], true )
                         + funcs.createStatsList( "HA", AllTheTests[ "HA" ], true )
                         + funcs.createStatsList( "USECASE", AllTheTests[ "USECASE" ], false )
