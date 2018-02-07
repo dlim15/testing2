@@ -312,8 +312,8 @@ def generateOverallGraph( prop, testCategory, graph_saved_directory ){
       postResult( prop, false )
     }
 }
-def getOverallPieGraph( file, host, port, user, pass, branch, type, testList, path ){
-   return generalFuncs.basicGraphPart( file, host, port, user, pass, type, branch ) + " \"" + testList + "\" latest y " + path
+def getOverallPieGraph( file, host, port, user, pass, branch, type, list, path ){
+   return generalFuncs.basicGraphPart( file, host, port, user, pass, type, branch ) + " \"" + list + "\" latest y " + path
 }
 def sqlCommand( testName ){
   return "\"INSERT INTO " + table_name + " VALUES('\$DATE','" + result_name + "','" + testName + "',\$BUILD_NUMBER, '\$ONOSBranch', \$line);\" "
