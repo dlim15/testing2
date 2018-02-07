@@ -271,10 +271,10 @@ def databaseAndGraph( prop, testName, graphOnly, graph_generator_file, graph_sav
   }
 }
 def generateCategoryStatsGraph( manualRun, postresult, file, type, branch, testListPart, save_path ){
-
+  print "here"
   if( isPostingResult( manualRun, postresult ) ){
     node( testMachine ){
-
+      print "there"
       withCredentials( [
           string( credentialsId: 'db_pass', variable: 'pass' ),
           string( credentialsId: 'db_user', variable: 'user' ),
@@ -295,6 +295,7 @@ def createStatsList( testCategory, list, semiNeeded ){
 }
 def generateOverallGraph( prop, testCategory, graph_saved_directory ){
   print "here"
+  print prop
   if( isPostingResult( prop[ "manualRun" ], prop[ "postResult" ] ) ){
     node( testMachine ){
       print "there"
