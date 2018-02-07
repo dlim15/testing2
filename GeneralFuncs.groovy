@@ -10,11 +10,9 @@ def initBasicVars(){
   rScriptLocation = "~/OnosSystemTest/TestON/JenkinsFile/scripts/"
 }
 def getTestList( tests ){
-    print "4"
     list = ""
     for( String test : tests.keySet() )
         list += test + ","
-  print "5"
-  return list[ 0..-2 ]
+    return list[ 0..-2 ]
 }
 return this;
