@@ -105,7 +105,7 @@ graph_generator_file = "~/OnosSystemTest/TestON/JenkinsFile/scripts/testCategory
 graph_saved_directory = "/var/jenkins/workspace/postjob-VM/"
 
 manually_run = params.manual_run
-post_result = params.PostResult == "true"
+post_result = params.PostResult
 if( !manually_run ){
     slackSend( color:'#03CD9F',
                message:":sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles:\n"
@@ -122,7 +122,7 @@ if( !manually_run ){
 if ( manually_run ){
     organize_tests( params.Tests )
     onos_b = params.ONOSVersion
-    isOldFlow = params.isOldFlow == "true"
+    isOldFlow = params.isOldFlow
     println "Tests to be run manually : "
 }else{
     testcases[ "SCPF" ][ "tests" ] = SCPF_choices
