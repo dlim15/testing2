@@ -15,4 +15,10 @@ def generateTestList( tests ){
         testList += test + ","
     testList = testList[ 0..-2 ]
 }
+def getTestList( tests ){
+    list = ""
+    for( String test : tests.keySet() )
+        list += test + ","
+    return list[ 0..-2 ]
+}
 return this;
