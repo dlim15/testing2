@@ -146,7 +146,7 @@ for( String test in testcases.keySet() ){
 def finalList = [:]
 finalList[ "VM" ] = runTestSeq( runTest[ "VM" ] )
 finalList[ "BM" ] = runTestSeq( runTest[ "BM" ] )
-parallel finalList
+//parallel finalList
 //finalList[ "BM" ].call()
 generateStatGraph()
 
