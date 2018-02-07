@@ -488,11 +488,15 @@ def postSetup( onos_branch, test_branch, onos_tag, isManual ){
     }
     return result
 }
+
 def generateStatGraph(){
-    if( manually_run ){
+    if( !manually_run ){
         testListPart = funcs.createStatsList( "FUNC", AllTheTests[ "FUNC" ], true ) +
                         funcs.createStatsList( "HA", AllTheTests[ "HA" ], true ) +
                         funcs.createStatsList( "USECASE", AllTheTests[ "USECASE" ], false )
-        funcs.generateCategoryStatsGraph( "false", "true", graph_generator_file, "ALL", onos_b, testListPart, graph_saved_directory )
+        pieTestList = funcs.makeTestList( AllTheTests[ "FUNC" ], true ) +
+                      funcs.makeTestList( AllTheTests[ "HA" ], true ) +
+                      funcs.makeTestList( AllTheTests[ "USECASE" ], false )
+        funcs.generateCategoryStatsGraph( "false", "true", graph_generator_file, "ALL", onos_b, testListPart, graph_saved_directory, pieTestList )
     }
 }
