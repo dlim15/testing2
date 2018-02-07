@@ -286,7 +286,9 @@ def generateCategoryStatsGraph( manualRun, postresult, file, type, branch, testL
     }
 }
 def createStatsList( testCategory, list, semiNeeded ){
+  println "2"
   return testCategory + "-" + generalFuncs.getTestList( list ) + ( semiNeeded ? ";" : "" )
+  println "3"
 }
 def generateOverallGraph( prop, testCategory, graph_saved_directory ){
 
