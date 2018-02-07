@@ -282,7 +282,7 @@ def generateCategoryStatsGraph( manualRun, postresult, file, type, branch, testL
               ''' + generalFuncs.basicGraphPart( file, host, port, user, pass, testType, branch ) + " \"" + testListPart + "\" latest " + " " + save_path
           }
         }
-      postResult( [], false )
+      postResult( [], true )
     }
 }
 def createStatsList( testCategory, list, semiNeeded ){
