@@ -155,7 +155,9 @@ def isPostingResult( manual, postresult ){
   return manual == "false" || postresult == "true"
 }
 def postResult( prop, graphOnly ){
+  print "a"
   if( graphOnly || isPostingResult( prop[ "manualRun" ], prop[ "postResult" ] ) ){
+    print "b"
     def post = build job: "postjob-" + ( graphOnly ? machine : machineType[ testType ] ), propagate: false
   }
 }
