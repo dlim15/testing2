@@ -101,7 +101,8 @@ USECASE_choices = ""
 FUNC_choices = ""
 HA_choices = ""
 SR_choices = ""
-graph_generator_file = "~/OnosSystemTest/TestON/JenkinsFile/scripts/testCategoryBuildStats.R"
+stat_graph_generator_file = "testCategoryBuildStats.R"
+pie_graph_generator_file = "testCategoryPiePassFail.R"
 graph_saved_directory = "/var/jenkins/workspace/postjob-VM/"
 
 manually_run = params.manual_run
@@ -146,7 +147,7 @@ for( String test in testcases.keySet() ){
 def finalList = [:]
 finalList[ "VM" ] = runTestSeq( runTest[ "VM" ] )
 finalList[ "BM" ] = runTestSeq( runTest[ "BM" ] )
-//parallel finalList
+parallel finalList
 //finalList[ "BM" ].call()
 generateStatGraph()
 
@@ -490,13 +491,13 @@ def postSetup( onos_branch, test_branch, onos_tag, isManual ){
 }
 
 def generateStatGraph(){
-    if( manually_run ){
+    if( !manually_run ){
         testListPart = funcs.createStatsList( "FUNC", AllTheTests[ "FUNC" ], true ) +
                         funcs.createStatsList( "HA", AllTheTests[ "HA" ], true ) +
                         funcs.createStatsList( "USECASE", AllTheTests[ "USECASE" ], false )
         pieTestList = funcs.makeTestList( AllTheTests[ "FUNC" ], true ) +
                       funcs.makeTestList( AllTheTests[ "HA" ], true ) +
                       funcs.makeTestList( AllTheTests[ "USECASE" ], false )
-        funcs.generateCategoryStatsGraph( "false", "true", graph_generator_file, "ALL", onos_b, testListPart, graph_saved_directory, pieTestList )
+        funcs.generateCategoryStatsGraph( "false", "true", stat_graph_generator_file, pie_graph_generator_file, "ALL", onos_b, testListPart, graph_saved_directory, pieTestList )
     }
 }
