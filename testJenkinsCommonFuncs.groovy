@@ -1,6 +1,6 @@
 #!groovy
 import groovy.time.*
-generalFuncs = evaluate readTrusted( 'test/GeneralFuncs.groovy' )
+generalFuncs = evaluate readTrusted( 'TestON/JenkinsFile/GeneralFuncs.groovy' )
 def initializeTrend( machine ){
   table_name = "executed_test_tests"
   result_name = "executed_test_results"
@@ -48,6 +48,7 @@ def getTestsToRun( testList ){
   testList.tokenize("\n;, ")
 }
 def getCurrentTime(){
+  TimeZone.setDefault( TimeZone.getTimeZone('PST') )
   return new Date();
 }
 def getTotalTime( start, end ){
@@ -76,7 +77,8 @@ def initAndRunTest( testName, testCategory ){
         shopt -s expand_aliases # expand alias in non-interactive mode
         export PYTHONUNBUFFERED=1
         ifconfig
-        ''' + borrowCell( testName ) + '''
+        ''' //+ borrowCell( testName )
+        + '''
         echo "ONOS Branch is: $ONOSBranch"
         echo "TestON Branch is: $TestONBranch"
         echo "Test date: "
@@ -182,7 +184,7 @@ def analyzeResult( prop, workSpace, testName, otherTestName, resultURL, wikiLink
         slackSend( channel:getSlackChannel(), color:"FF0000", message: "[" + prop[ "ONOSBranch" ] + "]"
                                             + otherTestName + " : Failed!\n" + resultContents[ 1 ] + "\n"
                                             + "[TestON log] : \n"
-                                            + "https://onos-jenkins.onlab.us/blue/organizations/jenkins/${env.JOB_NAME}/detail/${env.JOB_NAME}/${env.BUILD_NUMBER}/pipeline"
+                                            + "https://jenkins.onosproject.org/blue/organizations/jenkins/${env.JOB_NAME}/detail/${env.JOB_NAME}/${env.BUILD_NUMBER}/pipeline"
                                             + ( isSCPF ? "" : ( "\n[Result on Wiki] : \n" + "https://wiki.onosproject.org/display/ONOS/" + wikiLink.replaceAll( "\\s","+" ) ) )
                                             + ( resultURL != "" ? ( "\n[Karaf log] : \n" + resultURL + "artifact/" ) : "" ),
                    teamDomain: 'onosproject' )
@@ -194,7 +196,7 @@ def analyzeResult( prop, workSpace, testName, otherTestName, resultURL, wikiLink
 def publishToConfluence( prop, wikiLink, file ){
   if( isPostingResult( prop[ "manualRun" ], prop[ "postResult" ] ) ){
     publishConfluence siteName: 'wiki.onosproject.org', pageName: wikiLink, spaceName: 'ONOS',
-                  attachArchivedArtifacts: true,
+                  attachArchivedArtifacts: true, buildIfUnstable: true,
                   editorList: [
                       confluenceWritePage( confluenceFile( file ) )
                   ]
