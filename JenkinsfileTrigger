@@ -395,7 +395,7 @@ def exportEnvProperty( onos_branch, test_branch, wiki, tests, postResult, manual
 // Initialize the environment Setup for the onos and OnosSystemTest
 def envSetup( onos_branch, test_branch, onos_tag, jobOn, manuallyRun ){
     stage( "envSetup" ) {
-        // After env : ''' + borrow_mn( jobOn ) + '''
+        // after env: ''' + borrow_mn( jobOn ) + '''
         sh '''#!/bin/bash -l
         set +e
         . ~/.bashrc
