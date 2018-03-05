@@ -154,6 +154,12 @@ generateStatGraph()
 
 def testDivider( today ){
     switch ( today ) {
+        case Calendar.SUNDAY:
+            sunday()
+            onos_b= before_previous_version
+            day = "Sunday"
+            isOldFlow = false
+            break
         case Calendar.MONDAY:
             monday( true )
             tuesday( true, false )
@@ -185,12 +191,6 @@ def testDivider( today ){
             saturday()
             onos_b= previous_version
             day = "Saturday"
-            break
-        case Calendar.SUNDAY:
-            sunday()
-            onos_b= before_previous_version
-            day = "Sunday"
-            isOldFlow = false
             break
     }
 }
