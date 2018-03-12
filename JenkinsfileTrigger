@@ -1,75 +1,12 @@
 #!groovy
 
-funcs = evaluate readTrusted( 'JenkinsCommonFuncs.groovy' )
-funcs.initializeTrend( "VM" );
+funcs = evaluate readTrusted( 'TestON/JenkinsFile/JenkinsCommonFuncs.groovy' )
+test_lists = evaluate readTrusted( 'TestON/JenkinsFile/JenkinsTestONTests.groovy' )
+
 previous_version = "1.12"
 before_previous_version = "1.11"
-AllTheTests=
-[
-    "FUNC":[
-            "FUNCipv6Intent" : [ "basic":true, "extra_A":false, "extra_B":false, "new_Test":false, "day":"" ],
-            "FUNCoptical" :    [ "basic":true, "extra_A":false, "extra_B":false, "new_Test":false, "day":"" ],
-            "FUNCflow" :       [ "basic":true, "extra_A":false, "extra_B":false, "new_Test":false, "day":"" ],
-            "FUNCnetCfg":      [ "basic":true, "extra_A":false, "extra_B":false, "new_Test":false, "day":"" ],
-            "FUNCovsdbtest" :  [ "basic":true, "extra_A":false, "extra_B":false, "new_Test":false, "day":"" ],
-            "FUNCnetconf" :    [ "basic":true, "extra_A":false, "extra_B":false, "new_Test":false, "day":"" ],
-            "FUNCgroup" :      [ "basic":true, "extra_A":false, "extra_B":false, "new_Test":false, "day":"" ],
-            "FUNCformCluster" :[ "basic":false, "extra_A":false, "extra_B":false, "new_Test":true, "day":"" ],
-            "FUNCintent" :     [ "basic":false, "extra_A":true, "extra_B":false, "new_Test":false, "day":"" ],
-            "FUNCintentRest" : [ "basic":false, "extra_A":false, "extra_B":true, "new_Test":false, "day":"" ],
-    ],
-    "HA":[
-            "HAsanity" :                [ "basic":true, "extra_A":false, "extra_B":false, "new_Test":false, "day":"" ],
-            "HAclusterRestart" :        [ "basic":true, "extra_A":false, "extra_B":false, "new_Test":false, "day":"" ],
-            "HAsingleInstanceRestart" : [ "basic":true, "extra_A":false, "extra_B":false, "new_Test":false, "day":"" ],
-            "HAupgrade" :               [ "basic":false, "extra_A":false, "extra_B":false, "new_Test":true, "day":"" ],
-            "HAupgradeRollback" :       [ "basic":false, "extra_A":false, "extra_B":false, "new_Test":true, "day":"" ],
-            "HAstopNodes" :             [ "basic":false, "extra_A":true, "extra_B":false, "new_Test":false, "day":"" ],
-            "HAfullNetPartition" :      [ "basic":false, "extra_A":true, "extra_B":false, "new_Test":false, "day":"" ],
-            "HAswapNodes" :             [ "basic":false, "extra_A":false, "extra_B":true, "new_Test":false, "day":"" ],
-            "HAscaling" :               [ "basic":false, "extra_A":false, "extra_B":true, "new_Test":false, "day":"" ],
-            "HAkillNodes" :             [ "basic":false, "extra_A":false, "extra_B":true, "new_Test":false, "day":"" ]
-    ],
-    "SCPF":[
-            "SCPFswitchLat":                           [ "basic":true, "extra_A":false, "extra_B":false, "extra_C":false, "extra_D":false, "new_Test":false, day:"" ],
-            "SCPFcbench":                              [ "basic":true, "extra_A":false, "extra_B":false, "extra_C":false, "extra_D":false, "new_Test":false, day:"" ],
-            "SCPFportLat":                             [ "basic":true, "extra_A":false, "extra_B":false, "extra_C":false, "extra_D":false, "new_Test":false, day:"" ],
-            "SCPFflowTp1g":                            [ "basic":true, "extra_A":false, "extra_B":false, "extra_C":false, "extra_D":false, "new_Test":false, day:"" ],
-            "SCPFintentEventTp":                       [ "basic":true, "extra_A":false, "extra_B":false, "extra_C":false, "extra_D":false, "new_Test":false, day:"" ],
-            "SCPFhostLat":                             [ "basic":false, "extra_A":true, "extra_B":false, "extra_C":false, "extra_D":false, "new_Test":false, day:"" ],
-            "SCPFbatchFlowResp":                       [ "basic":false, "extra_A":true, "extra_B":false, "extra_C":false, "extra_D":false, "new_Test":false, day:"" ],
-            "SCPFintentRerouteLat":                    [ "basic":false, "extra_A":true, "extra_B":false, "extra_C":false, "extra_D":false, "new_Test":false, day:"" ],
-            "SCPFintentInstallWithdrawLat":            [ "basic":false, "extra_A":true, "extra_B":false, "extra_C":false, "extra_D":false, "new_Test":false, day:"" ],
-            "SCPFflowTp1gWithFlowObj":                 [ "basic":false, "extra_A":false, "extra_B":true, "extra_C":false, "extra_D":false, "new_Test":false, day:"" ],
-            "SCPFintentEventTpWithFlowObj":            [ "basic":false, "extra_A":false, "extra_B":true, "extra_C":false, "extra_D":false, "new_Test":false, day:"" ],
-            "SCPFintentRerouteLatWithFlowObj":         [ "basic":false, "extra_A":false, "extra_B":true, "extra_C":false, "extra_D":false, "new_Test":false, day:"" ],
-            "SCPFscalingMaxIntentsWithFlowObj":        [ "basic":false, "extra_A":false, "extra_B":true, "extra_C":false, "extra_D":false, "new_Test":false, day:"" ],
-            "SCPFintentInstallWithdrawLatWithFlowObj": [ "basic":false, "extra_A":false, "extra_B":true, "extra_C":false, "extra_D":false, "new_Test":false, day:"" ],
-            "SCPFscaleTopo":                           [ "basic":false, "extra_A":false, "extra_B":false, "extra_C":true, "extra_D":false, "new_Test":false, day:"" ],
-            "SCPFscalingMaxIntents":                   [ "basic":false, "extra_A":false, "extra_B":false, "extra_C":false, "extra_D":true, "new_Test":false, day:"" ],
-            "SCPFmastershipFailoverLat":               [ "basic":false, "extra_A":false, "extra_B":false, "extra_C":false, "extra_D":false, "new_Test":true, day:"" ]
-    ],
-    "USECASE":[
-            "FUNCvirNetNB" :                [ "basic":true, "extra_A":false, "extra_B":false, "new_Test":false, "day":"" ],
-            "FUNCbgpls" :                   [ "basic":true, "extra_A":false, "extra_B":false, "new_Test":false, "day":"" ],
-            "VPLSBasic" :                   [ "basic":true, "extra_A":false, "extra_B":false, "new_Test":false, "day":"" ],
-            "USECASE_SdnipFunction":        [ "basic":true, "extra_A":false, "extra_B":false, "new_Test":false, "day":"" ],
-            "USECASE_SdnipFunctionCluster": [ "basic":true, "extra_A":false, "extra_B":false, "new_Test":false, "day":"" ],
-            "PLATdockertest":               [ "basic":true, "extra_A":true, "extra_B":false, "new_Test":false, "day":"" ],
-            "SRSanity":                     [ "basic":false, "extra_A":false, "extra_B":false, "new_Test":false, "day":"" ],
-            "SRSwitchFailure":              [ "basic":false, "extra_A":false, "extra_B":false, "new_Test":false, "day":"" ],
-            "SRLinkFailure":                [ "basic":false, "extra_A":false, "extra_B":false, "new_Test":false, "day":"" ],
-            "SROnosFailure":                [ "basic":false, "extra_A":false, "extra_B":false, "new_Test":false, "day":"" ],
-            "SRClusterRestart":             [ "basic":false, "extra_A":false, "extra_B":false, "new_Test":false, "day":"" ],
-            "SRDynamic":                    [ "basic":false, "extra_A":false, "extra_B":false, "new_Test":false, "day":"" ],
-            "SRHighAvailability":           [ "basic":false, "extra_A":false, "extra_B":false, "new_Test":false, "day":"" ],
-            "VPLSfailsafe" :                [ "basic":true, "extra_A":false, "extra_B":false, "new_Test":false, "day":"" ]
-    ],
-    "SR":[
-            "SRBridging":                   [ "basic":true, "extra_A":false, "extra_B":false, "new_Test":false, "day":"" ],
-            "SRRouting":                   [ "basic":true, "extra_A":false, "extra_B":false, "new_Test":false, "day":"" ]
-    ]
-]
+funcs.initializeTrend( "VM" );
+
 testcases = [
     "FUNC" : [ tests : "" , nodeName : "VM" ],
     "HA" : [ tests : "" , nodeName : "VM" ],
@@ -88,14 +25,28 @@ Prefix_organizer = [
     "VP" : "USECASE"
 ]
 
+manually_run = params.manual_run
 onos_b = "master"
 test_branch = ""
 onos_tag = params.ONOSTag
 isOldFlow = true
+
 // Set tests based on day of week
 def now = funcs.getCurrentTime()
 print now.toString()
 today = now[ Calendar.DAY_OF_WEEK ]
+
+if ( manually_run ){
+    onos_b = params.ONOSVersion
+} else {
+    if ( today == Calendar.SATURDAY ){
+        onos_b = previous_version
+    } else if( today == Calendar.SUNDAY ){
+        onos_b = before_previous_version
+    }
+}
+AllTheTests = test_lists.getAllTheTests( onos_b )
+
 day = ""
 SCPF_choices = ""
 USECASE_choices = ""
@@ -106,7 +57,6 @@ stat_graph_generator_file = "testCategoryBuildStats.R"
 pie_graph_generator_file = "testCategoryPiePassFail.R"
 graph_saved_directory = "/var/jenkins/workspace/postjob-VM/"
 
-manually_run = params.manual_run
 post_result = params.PostResult
 if( !manually_run ){
     slackSend( color:'#03CD9F',
@@ -123,7 +73,7 @@ if( !manually_run ){
 
 if ( manually_run ){
     organize_tests( params.Tests )
-    onos_b = params.ONOSVersion
+
     isOldFlow = params.isOldFlow
     println "Tests to be run manually : "
 }else{
@@ -134,7 +84,9 @@ if ( manually_run ){
     testcases[ "SR" ][ "tests" ] = SR_choices
     println "Defaulting to " + day + " tests:"
 }
+
 print_tests( testcases )
+
 def runTest = [
     "VM" : [:],
     "BM" : [:]
@@ -150,16 +102,13 @@ finalList[ "VM" ] = runTestSeq( runTest[ "VM" ] )
 finalList[ "BM" ] = runTestSeq( runTest[ "BM" ] )
 parallel finalList
 //finalList[ "BM" ].call()
-generateStatGraph()
+
+if ( !manually_run ){
+    funcs.generateStatGraph( onos_b, AllTheTests, stat_graph_generator_file, pie_graph_generator_file, graph_saved_directory )
+}
 
 def testDivider( today ){
     switch ( today ) {
-        case Calendar.SUNDAY:
-            sunday()
-            onos_b= before_previous_version
-            day = "Sunday"
-            isOldFlow = false
-            break
         case Calendar.MONDAY:
             monday( true )
             tuesday( true, false )
@@ -189,8 +138,12 @@ def testDivider( today ){
             break
         case Calendar.SATURDAY:
             saturday()
-            onos_b= previous_version
             day = "Saturday"
+            break
+        case Calendar.SUNDAY:
+            sunday()
+            day = "Sunday"
+            isOldFlow = false
             break
     }
 }
@@ -388,7 +341,6 @@ def exportEnvProperty( onos_branch, test_branch, wiki, tests, postResult, manual
             echo "postResult=''' + postResult +'''" >> /var/jenkins/TestONOS.property
             echo "manualRun=''' + manually_run +'''" >> /var/jenkins/TestONOS.property
             echo "isOldFlow=''' + isOldFlow +'''" >> /var/jenkins/TestONOS.property
-
         '''
     }
 }
@@ -418,7 +370,6 @@ def preSetup( onos_branch, test_branch, onos_tag, isManual ){
     if( !isManual ){
         result = '''echo -e "\n#####  Set TestON Branch #####"
         echo "TestON Branch is set on: ''' + test_branch + '''"
-
         cd ~/OnosSystemTest/
         git checkout HEAD~1      # Make sure you aren't pn a branch
         git branch | grep -v "detached from" | xargs git branch -d # delete all local branches merged with remote
@@ -430,14 +381,10 @@ def preSetup( onos_branch, test_branch, onos_tag, isManual ){
         git checkout ''' + test_branch + ''' #create new local branch
         git branch
         git log -1 --decorate
-
-
         echo -e "\n#####  Set ONOS Branch #####"
         echo "ONOS Branch is set on: ''' + onos_branch + '''"
-
         echo -e "\n #### check karaf version ######"
         env |grep karaf
-
         cd ~/onos
         rm -rf buck-out/*
         ~/onos/tools/build/onos-buck clean
@@ -451,17 +398,12 @@ def preSetup( onos_branch, test_branch, onos_tag, isManual ){
         ''' + tagCheck( onos_tag, onos_branch ) + '''
         git branch
         git log -1 --decorate
-
-
         echo -e "\n##### set jvm heap size to 8G #####"
         echo ${ONOSJVMHeap}
-
         inserted_line="export JAVA_OPTS=\"\${ONOSJVMHeap}\""
         sed -i "s/bash/bash\\n$inserted_line/" ~/onos/tools/package/bin/onos-service
-
         echo "##### Check onos-service setting..... #####"
         cat ~/onos/tools/package/bin/onos-service
-
         export JAVA_HOME=/usr/lib/jvm/java-8-oracle'''
     }
     return result
@@ -481,12 +423,10 @@ def postSetup( onos_branch, test_branch, onos_tag, isManual ){
         # Force buck update
         rm -f ~/onos/bin/buck
         ~/onos/tools/build/onos-buck build onos
-
         sleep 30
         echo -e "\n##### Stop all running instances of Karaf #####"
         kill $(ps -efw | grep karaf | grep -v grep | awk '{print $2}')
         sleep 30
-
         git branch'''
     }
     return result
@@ -499,17 +439,5 @@ def returnCell( nodeName ){
             env
             ~/./return_cell.sh
             '''
-    }
-}
-
-def generateStatGraph(){
-    if( !manually_run ){
-        testListPart = funcs.createStatsList( "FUNC", AllTheTests[ "FUNC" ], true ) +
-                        funcs.createStatsList( "HA", AllTheTests[ "HA" ], true ) +
-                        funcs.createStatsList( "USECASE", AllTheTests[ "USECASE" ], false )
-        pieTestList = funcs.makeTestList( AllTheTests[ "FUNC" ], true ) +
-                      funcs.makeTestList( AllTheTests[ "HA" ], true ) +
-                      funcs.makeTestList( AllTheTests[ "USECASE" ], false )
-        funcs.generateCategoryStatsGraph( "false", "true", stat_graph_generator_file, pie_graph_generator_file, "ALL", onos_b, testListPart, graph_saved_directory, pieTestList )
     }
 }
