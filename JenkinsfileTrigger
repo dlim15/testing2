@@ -377,33 +377,33 @@ def initHtmlForWiki(){
                           </tr>
                     '''
     for( String test in testcases.keySet() ){
-        testcases[ test ][ wikiContent ] = '''
+        testcases[ test ][ 'wikiContent' ] = '''
         <tr>
             <th colspan="1" class="confluenceTh">''' + test + '''</th>
             '''
     }
 }
 def addingHeader( testCategory ){
-    testcases[ testCategory ][ wikiContent ] += '''
+    testcases[ testCategory ][ 'wikiContent' ] += '''
         <td class="confluenceTd">
             <ul>
     '''
 }
 def makeHtmlColList( testCategory, testName ){
-    testcases[ testCategory ][ wikiContent ] += '''
+    testcases[ testCategory ][ 'wikiContent' ] += '''
                 <li>'''+ testName +'''</li>
     '''
 
 }
 def closingHeader( testCategory ){
-    testcases[ testCategory ][ wikiContent ] += '''
+    testcases[ testCategory ][ 'wikiContent' ] += '''
             </ul>
         </td>
     '''
 }
 def closeHtmlForWiki(){
     for( String test in testcases.keySet() ){
-        wikiContents += testcases[ test ][ wikiContent ]
+        wikiContents += testcases[ test ][ 'wikiContent' ]
         wikiContents += '''
     </tr>
     '''
