@@ -352,61 +352,57 @@ def adder( testCat, set, dayAdding, day, getResult ){
     }
     return result
 }
+
 def initHtmlForWiki(){
-    wikiContents = '''<table class="wrapped confluenceTable">
-                      <colgroup>
-                          <col />
-                          <col />
-                          <col />
-                          <col />
-                          <col />
-                          <col />
-                      </colgroup>
-                      <tbody>
-                          <tr>
-                              <th colspan="1" class="confluenceTh">
-                                <br />
-                              </th>
-                              <th class="confluenceTh"><p>Monday</p></th>
-                              <th class="confluenceTh">Tuesday</th>
-                              <th class="confluenceTh">Wednesday</th>
-                              <th class="confluenceTh">Thursday</th>
-                              <th class="confluenceTh">Friday</th></tr>
-                              <th class="confluenceTh">Saturday</th>
-                              <th class="confluenceTh">Sunday</th>
-                          </tr>
-                    '''
+    wikiContents = '''
+    <table class="wrapped confluenceTable">
+        <colgroup>
+              <col />
+              <col />
+              <col />
+              <col />
+              <col />
+              <col />
+        </colgroup>
+        <tbody>
+            <tr>
+                <th colspan="1" class="confluenceTh">
+                    <br />
+                </th>
+                <th class="confluenceTh"><p>Monday</p></th>
+                <th class="confluenceTh">Tuesday</th>
+                <th class="confluenceTh">Wednesday</th>
+                <th class="confluenceTh">Thursday</th>
+                <th class="confluenceTh">Friday</th></tr>
+                <th class="confluenceTh">Saturday</th>
+                <th class="confluenceTh">Sunday</th>
+            </tr>'''
     for( String test in testcases.keySet() ){
         testcases[ test ][ 'wikiContent' ] = '''
-        <tr>
-            <th colspan="1" class="confluenceTh">''' + test + '''</th>
-            '''
+            <tr>
+                <th colspan="1" class="confluenceTh">''' + test + '''</th>'''
     }
 }
 def addingHeader( testCategory ){
     testcases[ testCategory ][ 'wikiContent' ] += '''
-        <td class="confluenceTd">
-            <ul>
-    '''
+                <td class="confluenceTd">
+                    <ul>'''
 }
 def makeHtmlColList( testCategory, testName ){
     testcases[ testCategory ][ 'wikiContent' ] += '''
-                <li>'''+ testName +'''</li>
-    '''
+                        <li>'''+ testName +'''</li>'''
 
 }
 def closingHeader( testCategory ){
     testcases[ testCategory ][ 'wikiContent' ] += '''
-            </ul>
-        </td>
-    '''
+                    </ul>
+                </td>'''
 }
 def closeHtmlForWiki(){
     for( String test in testcases.keySet() ){
         wikiContents += testcases[ test ][ 'wikiContent' ]
         wikiContents += '''
-    </tr>
-    '''
+            </tr>'''
     }
     wikiContents += '''
         </tbody>
@@ -414,8 +410,7 @@ def closeHtmlForWiki(){
     <p>On <strong>Everyday</strong>, all SegmentRouting tests are built and run on the every branch.</p>
     <p>On <strong>Weekdays</strong>, all the other tests are built and run on the master branch.</p>
     <p>On <strong>Saturdays</strong>, all the other tests are built and run on the '''+ funcs.branchWithPrefix( previous_version ) +''' branch.</p>
-    <p>On <strong>Sundays</strong>, all the other tests are built and run on the '''+ funcs.branchWithPrefix( before_previous_version ) +''' branch.</p>
-    '''
+    <p>On <strong>Sundays</strong>, all the other tests are built and run on the '''+ funcs.branchWithPrefix( before_previous_version ) +''' branch.</p>'''
 }
 def dayAdder( testCat, testName, dayOfWeek ){
     AllTheTests[ testCat ][ testName ][ "day" ] += dayOfWeek + ","
