@@ -1,18 +1,18 @@
 #!groovy
 
-funcs = evaluate readTrusted( 'JenkinsCommonFuncs.groovy' )
-test_lists = evaluate readTrusted( 'JenkinsTestONTests.groovy' )
+funcs = evaluate readTrusted( 'TestON/JenkinsFile/JenkinsCommonFuncs.groovy' )
+test_lists = evaluate readTrusted( 'TestON/JenkinsFile/JenkinsTestONTests.groovy' )
 
 previous_version = "1.12"
 before_previous_version = "1.11"
 funcs.initializeTrend( "VM" );
-
+wikiContents = ""
 testcases = [
-    "FUNC" : [ tests : "" , nodeName : "VM" ],
-    "HA" : [ tests : "" , nodeName : "VM" ],
-    "SR" : [ tests : "", nodeName : "VM" ],
-    "SCPF" : [ tests : "" , nodeName : "BM" ],
-    "USECASE" : [ tests : "" , nodeName : "BM" ]
+    "FUNC" : [ tests : "" , nodeName : "VM", wikiContent : "" ],
+    "HA" : [ tests : "" , nodeName : "VM", wikiContent : "" ],
+    "SCPF" : [ tests : "" , nodeName : "BM", wikiContent : "" ],
+    "SR" : [ tests : "", nodeName : "VM", wikiContent : "" ],
+    "USECASE" : [ tests : "" , nodeName : "BM", wikiContent : "" ]
 ]
 Prefix_organizer = [
     "FU" : "FUNC",
@@ -63,7 +63,10 @@ if( !manually_run ){
                message:":sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles:\n"
                         + "Starting tests on : " + now.toString()
                         + "\n:sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles:" )
+    initHtmlForWiki()
     testDivider( today )
+    closeHtmlForWiki()
+    println wikiContents
     FUNC_choices =  lastCommaRemover( FUNC_choices )
     HA_choices =  lastCommaRemover( HA_choices )
     SCPF_choices =  lastCommaRemover( SCPF_choices )
@@ -104,7 +107,11 @@ parallel finalList
 //finalList[ "BM" ].call()
 
 if ( !manually_run ){
-    funcs.generateStatGraph( onos_b, AllTheTests, stat_graph_generator_file, pie_graph_generator_file, graph_saved_directory )
+    funcs.generateStatGraph( funcs.branchWithPrefix( onos_b ),
+                             AllTheTests,
+                             stat_graph_generator_file,
+                             pie_graph_generator_file,
+                             graph_saved_directory )
 }
 
 def testDivider( today ){
@@ -166,105 +173,247 @@ def lastCommaRemover( str ){
     return str
 }
 def monday( getResult ){
+    addingHeader( "FUNC" )
     FUNC_choices += adder( "FUNC", "basic", true, "M", getResult )
     FUNC_choices += adder( "FUNC", "new_Test", true, "M", getResult )
     FUNC_choices += adder( "FUNC", "extra_A", true, "M", getResult )
+    closingHeader( "FUNC" )
+    addingHeader( "HA" )
     HA_choices += adder( "HA", "basic", true, "M", getResult )
     HA_choices += adder( "HA", "extra_A", true, "M", getResult )
     //HA_choices += adder( "HA", "new_Test", true, "M", getResult )
-    SR_choices += adder( "SR", "basic", true, "M", getResult )
+    closingHeader( "HA" )
+    addingHeader( "SCPF" )
     SCPF_choices += adder( "SCPF", "basic", true, "M", getResult )
     SCPF_choices += adder( "SCPF", "extra_B", true, "M", getResult )
+    closingHeader( "SCPF" )
+    addingHeader( "SR" )
+    SR_choices += adder( "SR", "basic", true, "M", getResult )
+    closingHeader( "SR" )
+    addingHeader( "USECASE" )
+    closingHeader( "USECASE" )
 }
 def tuesday( getDay, getResult ){
+
+    addingHeader( "FUNC" )
     FUNC_choices += adder( "FUNC", "basic", getDay, "T", getResult )
     FUNC_choices += adder( "FUNC", "new_Test", getDay, "T", getResult )
     FUNC_choices += adder( "FUNC", "extra_B", getDay, "T", getResult )
+    closingHeader( "FUNC" )
+    addingHeader( "HA" )
     HA_choices += adder( "HA", "basic", getDay, "T", getResult )
     HA_choices += adder( "HA", "extra_B", getDay, "T", getResult )
     HA_choices += adder( "HA", "new_Test", getDay, "T", getResult )
-    SR_choices += adder( "SR", "basic", getDay, "T", getResult )
+    closingHeader( "HA" )
+    addingHeader( "SCPF" )
     SCPF_choices += adder( "SCPF", "basic", getDay, "T", getResult )
     SCPF_choices += adder( "SCPF", "extra_C", getDay, "T", getResult )
+    closingHeader( "SCPF" )
+    addingHeader( "SR" )
+    SR_choices += adder( "SR", "basic", getDay, "T", getResult )
+    closingHeader( "SR" )
+    addingHeader( "USECASE" )
     USECASE_choices += adder( "USECASE", "basic", getDay, "T", getResult )
     USECASE_choices += adder( "USECASE", "extra_A", getDay, "T", getResult )
     USECASE_choices += adder( "USECASE", "new_Test", getDay, "T", getResult )
+    closingHeader( "USECASE" )
 }
 def wednesday( getDay, getResult ){
+    addingHeader( "FUNC" )
     FUNC_choices += adder( "FUNC", "basic", getDay, "W", getResult )
     FUNC_choices += adder( "FUNC", "new_Test", getDay, "W", getResult )
     FUNC_choices += adder( "FUNC", "extra_A", getDay, "W", getResult )
+    closingHeader( "FUNC" )
+    addingHeader( "HA" )
     HA_choices += adder( "HA", "basic", getDay, "W", getResult )
     HA_choices += adder( "HA", "extra_A", getDay, "W", getResult )
     //HA_choices += adder( "HA", "new_Test", getDay, "W", getResult )
-    SR_choices += adder( "SR", "basic", getDay, "W", getResult )
+    closingHeader( "HA" )
+    addingHeader( "SCPF" )
     SCPF_choices += adder( "SCPF", "basic", getDay, "W", getResult )
     SCPF_choices += adder( "SCPF", "extra_A", getDay, "W", getResult )
     SCPF_choices += adder( "SCPF", "new_Test", getDay, "W", getResult )
+    closingHeader( "SCPF" )
+    addingHeader( "SR" )
+    closingHeader( "SR" )
+    SR_choices += adder( "SR", "basic", getDay, "W", getResult )
+    closingHeader( "SR" )
+    addingHeader( "USECASE" )
+    closingHeader( "USECASE" )
 }
 def thursday( getDay, getResult ){
+    addingHeader( "FUNC" )
     FUNC_choices += adder( "FUNC", "basic", getDay, "Th", getResult )
     FUNC_choices += adder( "FUNC", "new_Test", getDay, "Th", getResult )
     FUNC_choices += adder( "FUNC", "extra_B", getDay, "Th", getResult )
+    closingHeader( "FUNC" )
+    addingHeader( "HA" )
     HA_choices += adder( "HA", "basic", getDay, "Th", getResult )
     HA_choices += adder( "HA", "extra_B", getDay, "Th", getResult )
     HA_choices += adder( "HA", "new_Test", getDay, "Th", getResult )
-    SR_choices += adder( "SR", "basic", getDay, "Th", getResult )
+    closingHeader( "HA" )
+    addingHeader( "SCPF" )
     SCPF_choices += adder( "SCPF", "basic", getDay, "Th", getResult )
     SCPF_choices += adder( "SCPF", "extra_B", getDay, "Th", getResult )
+    closingHeader( "SCPF" )
+    addingHeader( "SR" )
+    SR_choices += adder( "SR", "basic", getDay, "Th", getResult )
+    closingHeader( "SR" )
+    addingHeader( "USECASE" )
+    closingHeader( "USECASE" )
 }
 def friday( getDay, getResult ){
+    addingHeader( "FUNC" )
     FUNC_choices += adder( "FUNC", "basic", getDay, "F", getResult )
     FUNC_choices += adder( "FUNC", "new_Test", getDay, "F", getResult )
     FUNC_choices += adder( "FUNC", "extra_A", getDay, "F", getResult )
+    closingHeader( "FUNC" )
+    addingHeader( "HA" )
     HA_choices += adder( "HA", "basic", getDay, "F", getResult )
     HA_choices += adder( "HA", "extra_A", getDay, "F", getResult )
     //HA_choices += adder( "HA", "new_Test", getDay, "F", getResult )
-    SR_choices += adder( "SR", "basic", getDay, "F", getResult )
+    closingHeader( "HA" )
+    addingHeader( "SCPF" )
     SCPF_choices += adder( "SCPF", "basic", getDay, "F", getResult )
     SCPF_choices += adder( "SCPF", "extra_A", getDay, "F", getResult )
     SCPF_choices += adder( "SCPF", "extra_D", getDay, "F", getResult )
+    closingHeader( "SCPF" )
+    addingHeader( "SR" )
+    SR_choices += adder( "SR", "basic", getDay, "F", getResult )
+    closingHeader( "SR" )
+    addingHeader( "USECASE" )
+    closingHeader( "USECASE" )
 }
 def saturday(){
+    addingHeader( "FUNC" )
     FUNC_choices += adder( "FUNC", "basic", false, "Sa", true )
     FUNC_choices += adder( "FUNC", "extra_A", false, "Sa", true )
     FUNC_choices += adder( "FUNC", "extra_B", false, "Sa", true )
     FUNC_choices += adder( "FUNC", "new_Test", true, "Sa", true )
+    closingHeader( "FUNC" )
+    addingHeader( "HA" )
     HA_choices += adder( "HA", "basic", false, "Sa", true )
     HA_choices += adder( "HA", "extra_A", false, "Sa", true )
     HA_choices += adder( "HA", "extra_B", false, "Sa", true )
     HA_choices += adder( "HA", "new_Test", false, "Sa", true )
-    SR_choices += adder( "SR", "basic", false, "Sa", true )
+    closingHeader( "HA" )
+    addingHeader( "SCPF" )
     SCPF_choices += adder( "SCPF", "basic", false, "Sa", true )
     SCPF_choices += adder( "SCPF", "extra_A", false, "Sa", true )
     SCPF_choices += adder( "SCPF", "extra_B", false, "Sa", true )
     SCPF_choices += adder( "SCPF", "extra_C", false, "Sa", true )
     SCPF_choices += adder( "SCPF", "extra_D", false, "Sa", true )
     SCPF_choices += adder( "SCPF", "new_Test", false, "Sa", true )
+    closingHeader( "SCPF" )
+    addingHeader( "SR" )
+    closingHeader( "SR" )
+    SR_choices += adder( "SR", "basic", false, "Sa", true )
+    addingHeader( "USECASE" )
     USECASE_choices += adder( "USECASE", "basic", false, "Sa", true )
+    closingHeader( "USECASE" )
 }
 def sunday(){
+    addingHeader( "FUNC" )
     FUNC_choices += adder( "FUNC", "basic", false, "S", true )
     FUNC_choices += adder( "FUNC", "extra_A", false, "S", true )
     FUNC_choices += adder( "FUNC", "extra_B", false, "S", true )
+    closingHeader( "FUNC" )
+    addingHeader( "HA" )
     HA_choices += adder( "HA", "basic", false, "S", true )
     HA_choices += adder( "HA", "extra_A", false, "S", true )
     HA_choices += adder( "HA", "extra_B", false, "S", true )
-    SR_choices += adder( "SR", "basic", false, "S", true )
+    closingHeader( "HA" )
+    addingHeader( "SCPF" )
     SCPF_choices += adder( "SCPF", "basic", false, "S", true )
+    SCPF_choices += adder( "SCPF", "extra_A", false, "S", true )
+    SCPF_choices += adder( "SCPF", "extra_B", false, "S", true )
+    SCPF_choices += adder( "SCPF", "extra_C", false, "S", true )
+    SCPF_choices += adder( "SCPF", "extra_D", false, "S", true )
+    closingHeader( "SCPF" )
+    addingHeader( "SR" )
+    SR_choices += adder( "SR", "basic", false, "S", true )
+    closingHeader( "SR" )
+    addingHeader( "USECASE" )
     USECASE_choices += adder( "USECASE", "basic", false, "S", true )
+    closingHeader( "USECASE" )
 }
 def adder( testCat, set, dayAdding, day, getResult ){
     result = ""
-    for( String test in AllTheTests[ testCat ].keySet()  ){
+    for( String test in AllTheTests[ testCat ].keySet() ){
         if( AllTheTests[ testCat ][ test ][ set ] ){
             if( getResult )
                 result += test + ","
             if( dayAdding )
                 dayAdder( testCat, test, day )
+            makeHtmlColList( testCat, test )
         }
     }
     return result
+}
+def initHtmlForWiki(){
+    wikiContents = '''<table class="wrapped confluenceTable">
+                      <colgroup>
+                          <col />
+                          <col />
+                          <col />
+                          <col />
+                          <col />
+                          <col />
+                      </colgroup>
+                      <tbody>
+                          <tr>
+                              <th colspan="1" class="confluenceTh">
+                                <br />
+                              </th>
+                              <th class="confluenceTh"><p>Monday</p></th>
+                              <th class="confluenceTh">Tuesday</th>
+                              <th class="confluenceTh">Wednesday</th>
+                              <th class="confluenceTh">Thursday</th>
+                              <th class="confluenceTh">Friday</th></tr>
+                              <th class="confluenceTh">Saturday</th>
+                              <th class="confluenceTh">Sunday</th>
+                          </tr>
+                    '''
+    for( String test in testcases.keySet() ){
+        testcases[ test ][ wikiContent ] = '''
+        <tr>
+            <th colspan="1" class="confluenceTh">''' + test + '''</th>
+            '''
+    }
+}
+def addingHeader( testCategory ){
+    testcases[ testCategory ][ wikiContent ] += '''
+        <td class="confluenceTd">
+            <ul>
+    '''
+}
+def makeHtmlColList( testCategory, testName ){
+    testcases[ testCategory ][ wikiContent ] += '''
+                <li>'''+ testName +'''</li>
+    '''
+
+}
+def closingHeader( testCategory ){
+    testcases[ testCategory ][ wikiContent ] += '''
+            </ul>
+        </td>
+    '''
+}
+def closeHtmlForWiki(){
+    for( String test in testcases.keySet() ){
+        wikiContents += testcases[ test ][ wikiContent ]
+        wikiContents += '''
+    </tr>
+    '''
+    }
+    wikiContents += '''
+        </tbody>
+    </table>
+    <p>On <strong>Everyday</strong>, all SegmentRouting tests are built and run on the every branch.</p>
+    <p>On <strong>Weekdays</strong>, all the other tests are built and run on the master branch.</p>
+    <p>On <strong>Saturdays</strong>, all the other tests are built and run on the '''+ funcs.branchWithPrefix( previous_version ) +''' branch.</p>
+    <p>On <strong>Sundays</strong>, all the other tests are built and run on the '''+ funcs.branchWithPrefix( before_previous_version ) +''' branch.</p>
+    '''
 }
 def dayAdder( testCat, testName, dayOfWeek ){
     AllTheTests[ testCat ][ testName ][ "day" ] += dayOfWeek + ","
@@ -300,9 +449,7 @@ def borrow_mn( jobOn ){
 def trigger( branch, tests, nodeName, jobOn, manuallyRun, onosTag ){
     println jobOn + "-pipeline-" + manuallyRun ? "manually" : branch
     wiki = branch
-    if ( branch != "master" ){
-        branch = "onos-" + branch
-    }
+    branch = funcs.branchWithPrefix( branch )
     test_branch = "master"
     node( "TestStation-" + nodeName + "s" ){
         envSetup( branch, test_branch, onosTag, jobOn, manuallyRun )
@@ -341,6 +488,7 @@ def exportEnvProperty( onos_branch, test_branch, wiki, tests, postResult, manual
             echo "postResult=''' + postResult +'''" >> /var/jenkins/TestONOS.property
             echo "manualRun=''' + manually_run +'''" >> /var/jenkins/TestONOS.property
             echo "isOldFlow=''' + isOldFlow +'''" >> /var/jenkins/TestONOS.property
+
         '''
     }
 }
@@ -370,6 +518,7 @@ def preSetup( onos_branch, test_branch, onos_tag, isManual ){
     if( !isManual ){
         result = '''echo -e "\n#####  Set TestON Branch #####"
         echo "TestON Branch is set on: ''' + test_branch + '''"
+
         cd ~/OnosSystemTest/
         git checkout HEAD~1      # Make sure you aren't pn a branch
         git branch | grep -v "detached from" | xargs git branch -d # delete all local branches merged with remote
@@ -381,10 +530,14 @@ def preSetup( onos_branch, test_branch, onos_tag, isManual ){
         git checkout ''' + test_branch + ''' #create new local branch
         git branch
         git log -1 --decorate
+
+
         echo -e "\n#####  Set ONOS Branch #####"
         echo "ONOS Branch is set on: ''' + onos_branch + '''"
+
         echo -e "\n #### check karaf version ######"
         env |grep karaf
+
         cd ~/onos
         rm -rf buck-out/*
         ~/onos/tools/build/onos-buck clean
@@ -398,12 +551,17 @@ def preSetup( onos_branch, test_branch, onos_tag, isManual ){
         ''' + tagCheck( onos_tag, onos_branch ) + '''
         git branch
         git log -1 --decorate
+
+
         echo -e "\n##### set jvm heap size to 8G #####"
         echo ${ONOSJVMHeap}
+
         inserted_line="export JAVA_OPTS=\"\${ONOSJVMHeap}\""
         sed -i "s/bash/bash\\n$inserted_line/" ~/onos/tools/package/bin/onos-service
+
         echo "##### Check onos-service setting..... #####"
         cat ~/onos/tools/package/bin/onos-service
+
         export JAVA_HOME=/usr/lib/jvm/java-8-oracle'''
     }
     return result
@@ -423,10 +581,12 @@ def postSetup( onos_branch, test_branch, onos_tag, isManual ){
         # Force buck update
         rm -f ~/onos/bin/buck
         ~/onos/tools/build/onos-buck build onos
+
         sleep 30
         echo -e "\n##### Stop all running instances of Karaf #####"
         kill $(ps -efw | grep karaf | grep -v grep | awk '{print $2}')
         sleep 30
+
         git branch'''
     }
     return result
