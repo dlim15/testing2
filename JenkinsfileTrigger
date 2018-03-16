@@ -124,33 +124,35 @@ def testDivider( today ){
             wednesday( true, false )
             thursday( true, false )
             friday( true, false )
+            saturday( false, false )
+            sunday( false, false )
             day = "Monday"
-            //slackSend( color:'#FFD988', message:"Tests to be run this weekdays : \n" + printDaysForTest() )
+            slackSend( color:'#FFD988', message:"Tests to be run this weekdays : \n" + printDaysForTest() )
             break
         case Calendar.TUESDAY:
-            tuesday( true, true )
+            tuesday( false, true )
             day = "Tuesday"
             break
         case Calendar.WEDNESDAY:
-            wednesday( true, true )
+            wednesday( false, true )
             day = "Wednesday"
             break
         case Calendar.THURSDAY:
-            thursday( true, true )
+            thursday( false, true )
             day = "Thursday"
             isOldFlow = false
             break
         case Calendar.FRIDAY:
-            friday( true, true )
+            friday( false, true )
             day = "Friday"
             isOldFlow = false
             break
         case Calendar.SATURDAY:
-            saturday()
+            saturday( false, true )
             day = "Saturday"
             break
         case Calendar.SUNDAY:
-            sunday()
+            sunday( false , true )
             day = "Sunday"
             isOldFlow = false
             break
@@ -286,57 +288,57 @@ def friday( getDay, getResult ){
     addingHeader( "USECASE" )
     closingHeader( "USECASE" )
 }
-def saturday(){
+def saturday( getDay, getResult ){
     addingHeader( "FUNC" )
-    FUNC_choices += adder( "FUNC", "basic", false, "Sa", true )
-    FUNC_choices += adder( "FUNC", "extra_A", false, "Sa", true )
-    FUNC_choices += adder( "FUNC", "extra_B", false, "Sa", true )
-    FUNC_choices += adder( "FUNC", "new_Test", true, "Sa", true )
+    FUNC_choices += adder( "FUNC", "basic", getDay, "Sa", getResult )
+    FUNC_choices += adder( "FUNC", "extra_A", getDay, "Sa", getResult )
+    FUNC_choices += adder( "FUNC", "extra_B", getDay, "Sa", getResult )
+    FUNC_choices += adder( "FUNC", "new_Test", getDay, "Sa", getResult )
     closingHeader( "FUNC" )
     addingHeader( "HA" )
-    HA_choices += adder( "HA", "basic", false, "Sa", true )
-    HA_choices += adder( "HA", "extra_A", false, "Sa", true )
-    HA_choices += adder( "HA", "extra_B", false, "Sa", true )
-    HA_choices += adder( "HA", "new_Test", false, "Sa", true )
+    HA_choices += adder( "HA", "basic", getDay, "Sa", getResult )
+    HA_choices += adder( "HA", "extra_A", getDay, "Sa", getResult )
+    HA_choices += adder( "HA", "extra_B", getDay, "Sa", getResult )
+    HA_choices += adder( "HA", "new_Test", getDay, "Sa", getResult )
     closingHeader( "HA" )
     addingHeader( "SCPF" )
-    SCPF_choices += adder( "SCPF", "basic", false, "Sa", true )
-    SCPF_choices += adder( "SCPF", "extra_A", false, "Sa", true )
-    SCPF_choices += adder( "SCPF", "extra_B", false, "Sa", true )
-    SCPF_choices += adder( "SCPF", "extra_C", false, "Sa", true )
-    SCPF_choices += adder( "SCPF", "extra_D", false, "Sa", true )
-    SCPF_choices += adder( "SCPF", "new_Test", false, "Sa", true )
+    SCPF_choices += adder( "SCPF", "basic", getDay, "Sa", getResult )
+    SCPF_choices += adder( "SCPF", "extra_A", getDay, "Sa", getResult )
+    SCPF_choices += adder( "SCPF", "extra_B", getDay, "Sa", getResult )
+    SCPF_choices += adder( "SCPF", "extra_C", getDay, "Sa", getResult )
+    SCPF_choices += adder( "SCPF", "extra_D", getDay, "Sa", getResult )
+    SCPF_choices += adder( "SCPF", "new_Test", getDay, "Sa", getResult )
     closingHeader( "SCPF" )
     addingHeader( "SR" )
     closingHeader( "SR" )
-    SR_choices += adder( "SR", "basic", false, "Sa", true )
+    SR_choices += adder( "SR", "basic", getDay, "Sa", getResult )
     addingHeader( "USECASE" )
-    USECASE_choices += adder( "USECASE", "basic", false, "Sa", true )
+    USECASE_choices += adder( "USECASE", "basic", getDay, "Sa", getResult )
     closingHeader( "USECASE" )
 }
-def sunday(){
+def sunday( getDay, getResult ){
     addingHeader( "FUNC" )
-    FUNC_choices += adder( "FUNC", "basic", false, "S", true )
-    FUNC_choices += adder( "FUNC", "extra_A", false, "S", true )
-    FUNC_choices += adder( "FUNC", "extra_B", false, "S", true )
+    FUNC_choices += adder( "FUNC", "basic", getDay, "S", getResult )
+    FUNC_choices += adder( "FUNC", "extra_A", getDay, "S", getResult )
+    FUNC_choices += adder( "FUNC", "extra_B", getDay, "S", getResult )
     closingHeader( "FUNC" )
     addingHeader( "HA" )
-    HA_choices += adder( "HA", "basic", false, "S", true )
-    HA_choices += adder( "HA", "extra_A", false, "S", true )
-    HA_choices += adder( "HA", "extra_B", false, "S", true )
+    HA_choices += adder( "HA", "basic", getDay, "S", getResult )
+    HA_choices += adder( "HA", "extra_A", getDay, "S", getResult )
+    HA_choices += adder( "HA", "extra_B", getDay, "S", getResult )
     closingHeader( "HA" )
     addingHeader( "SCPF" )
-    SCPF_choices += adder( "SCPF", "basic", false, "S", true )
-    SCPF_choices += adder( "SCPF", "extra_A", false, "S", true )
-    SCPF_choices += adder( "SCPF", "extra_B", false, "S", true )
-    SCPF_choices += adder( "SCPF", "extra_C", false, "S", true )
-    SCPF_choices += adder( "SCPF", "extra_D", false, "S", true )
+    SCPF_choices += adder( "SCPF", "basic", getDay, "S", getResult )
+    SCPF_choices += adder( "SCPF", "extra_A", getDay, "S", getResult )
+    SCPF_choices += adder( "SCPF", "extra_B", getDay, "S", getResult )
+    SCPF_choices += adder( "SCPF", "extra_C", getDay, "S", getResult )
+    SCPF_choices += adder( "SCPF", "extra_D", getDay, "S", getResult )
     closingHeader( "SCPF" )
     addingHeader( "SR" )
-    SR_choices += adder( "SR", "basic", false, "S", true )
+    SR_choices += adder( "SR", "basic", getDay, "S", getResult )
     closingHeader( "SR" )
     addingHeader( "USECASE" )
-    USECASE_choices += adder( "USECASE", "basic", false, "S", true )
+    USECASE_choices += adder( "USECASE", "basic", getDay, "S", getResult )
     closingHeader( "USECASE" )
 }
 def adder( testCat, set, dayAdding, day, getResult ){
