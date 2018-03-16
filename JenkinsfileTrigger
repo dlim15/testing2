@@ -59,10 +59,12 @@ graph_saved_directory = "/var/jenkins/workspace/postjob-VM/"
 
 post_result = params.PostResult
 if( !manually_run ){
-    slackSend( color:'#03CD9F',
+    /*slackSend( color:'#03CD9F',
                message:":sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles:\n"
                         + "Starting tests on : " + now.toString()
                         + "\n:sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles:" )
+    */
+    today = Calendar.MONDAY
     initHtmlForWiki()
     testDivider( today )
     closeHtmlForWiki()
@@ -103,16 +105,16 @@ for( String test in testcases.keySet() ){
 def finalList = [:]
 finalList[ "VM" ] = runTestSeq( runTest[ "VM" ] )
 finalList[ "BM" ] = runTestSeq( runTest[ "BM" ] )
-parallel finalList
+//parallel finalList
 //finalList[ "BM" ].call()
-
+/*
 if ( !manually_run ){
     funcs.generateStatGraph( funcs.branchWithPrefix( onos_b ),
                              AllTheTests,
                              stat_graph_generator_file,
                              pie_graph_generator_file,
                              graph_saved_directory )
-}
+}*/
 
 def testDivider( today ){
     switch ( today ) {
@@ -123,7 +125,7 @@ def testDivider( today ){
             thursday( true, false )
             friday( true, false )
             day = "Monday"
-            slackSend( color:'#FFD988', message:"Tests to be run this weekdays : \n" + printDaysForTest() )
+            //slackSend( color:'#FFD988', message:"Tests to be run this weekdays : \n" + printDaysForTest() )
             break
         case Calendar.TUESDAY:
             tuesday( true, true )
