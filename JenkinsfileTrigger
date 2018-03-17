@@ -418,7 +418,7 @@ def closeHtmlForWiki(){
 def postToWiki(){
     node( testMachine ){
         funcs.publishToConfluence( "false", "true",
-                                   "Automated+Test+Schedule",
+                                   "Automated Test Schedule",
                                    "/var/workspace/jenkins/all-pipeline-trigger/jenkinsSchedule.txt" )
     }
 }
