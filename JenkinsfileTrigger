@@ -240,7 +240,6 @@ def wednesday( getDay, getResult ){
     SCPF_choices += adder( "SCPF", "new_Test", getDay, "W", getResult )
     closingHeader( "SCPF" )
     addingHeader( "SR" )
-    closingHeader( "SR" )
     SR_choices += adder( "SR", "basic", getDay, "W", getResult )
     closingHeader( "SR" )
     addingHeader( "USECASE" )
