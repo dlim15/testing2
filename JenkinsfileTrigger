@@ -419,7 +419,7 @@ def postToWiki(){
     node( testMachine ){
         funcs.publishToConfluence( "false", "true",
                                    "Automated Test Schedule",
-                                   "/var/workspace/jenkins/all-pipeline-trigger/jenkinsSchedule.txt" )
+                                   "/var/jenkins/workspace/all-pipeline-trigger/jenkinsSchedule.txt" )
     }
 }
 def dayAdder( testCat, testName, dayOfWeek ){
