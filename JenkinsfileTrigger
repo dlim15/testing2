@@ -127,7 +127,8 @@ def testDivider( today ){
             saturday( false, false )
             sunday( false, false )
             day = "Monday"
-            slackSend( color:'#FFD988', message:"Tests to be run this weekdays : \n" + printDaysForTest() )
+            postToWiki()
+            //slackSend( color:'#FFD988', message:"Tests to be run this weekdays : \n" + printDaysForTest() )
             break
         case Calendar.TUESDAY:
             tuesday( false, true )
@@ -413,6 +414,13 @@ def closeHtmlForWiki(){
     <p>On <strong>Weekdays</strong>, all the other tests are built and run on the master branch.</p>
     <p>On <strong>Saturdays</strong>, all the other tests are built and run on the '''+ funcs.branchWithPrefix( previous_version ) +''' branch.</p>
     <p>On <strong>Sundays</strong>, all the other tests are built and run on the '''+ funcs.branchWithPrefix( before_previous_version ) +''' branch.</p>'''
+}
+def postToWiki(){
+    node( testMachine ){
+        funcs.publishToConfluence( "false", "true",
+                                   "Automated+Test+Schedule",
+                                   "/var/workspace/jenkins/all-pipeline-trigger/jenkinsSchedule.txt" )
+    }
 }
 def dayAdder( testCat, testName, dayOfWeek ){
     AllTheTests[ testCat ][ testName ][ "day" ] += dayOfWeek + ","
