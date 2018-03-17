@@ -408,7 +408,7 @@ def closeHtmlForWiki(){
     wikiContents += '''
         </tbody>
     </table>
-    <p>On <strong>Everyday</strong>, all SegmentRouting tests are built and run on the every branch.</p>
+    <p><strong>Everyday</strong>, all SegmentRouting tests are built and run on every branch.</p>
     <p>On <strong>Weekdays</strong>, all the other tests are built and run on the master branch.</p>
     <p>On <strong>Saturdays</strong>, all the other tests are built and run on the '''+ funcs.branchWithPrefix( previous_version ) +''' branch.</p>
     <p>On <strong>Sundays</strong>, all the other tests are built and run on the '''+ funcs.branchWithPrefix( before_previous_version ) +''' branch.</p>'''
