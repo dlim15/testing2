@@ -311,8 +311,8 @@ def saturday( getDay, getResult ){
     SCPF_choices += adder( "SCPF", "new_Test", getDay, "Sa", getResult )
     closingHeader( "SCPF" )
     addingHeader( "SR" )
-    closingHeader( "SR" )
     SR_choices += adder( "SR", "basic", getDay, "Sa", getResult )
+    closingHeader( "SR" )
     addingHeader( "USECASE" )
     USECASE_choices += adder( "USECASE", "basic", getDay, "Sa", getResult )
     closingHeader( "USECASE" )
@@ -355,7 +355,6 @@ def adder( testCat, set, dayAdding, day, getResult ){
     }
     return result
 }
-
 def initHtmlForWiki(){
     wikiContents = '''
     <table class="wrapped confluenceTable">
@@ -373,12 +372,12 @@ def initHtmlForWiki(){
                     <br />
                 </th>
                 <th class="confluenceTh"><p>Monday</p></th>
-                <th class="confluenceTh">Tuesday</th>
-                <th class="confluenceTh">Wednesday</th>
-                <th class="confluenceTh">Thursday</th>
-                <th class="confluenceTh">Friday</th></tr>
-                <th class="confluenceTh">Saturday</th>
-                <th class="confluenceTh">Sunday</th>
+                <th class="confluenceTh"><p>Tuesday</p></th>
+                <th class="confluenceTh"><p>Wednesday</p></th>
+                <th class="confluenceTh"><p>Thursday</p></th>
+                <th class="confluenceTh"><p>Friday</p></th>
+                <th class="confluenceTh"><p>Saturday</p></th>
+                <th class="confluenceTh"><p>Sunday</p></th>
             </tr>'''
     for( String test in testcases.keySet() ){
         testcases[ test ][ 'wikiContent' ] = '''
