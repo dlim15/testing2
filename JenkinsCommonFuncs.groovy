@@ -62,6 +62,7 @@ def printTestToRun( testList ){
 }
 def sendResultToSlack( start, isManualRun, branch ){
   try{
+    println "yoyo"
     if( isManualRun == "false" ){
         end = getCurrentTime();
         TimeDuration duration = TimeCategory.minus( end , start );
@@ -71,7 +72,8 @@ def sendResultToSlack( start, isManualRun, branch ){
         println "there"
     }
   }
-  catch( all ){}
+  catch( all ){
+    println "faillled" }
 }
 def initAndRunTest( testName, testCategory ){
   // after ifconfig : ''' + borrowCell( testName ) + '''
