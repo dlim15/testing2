@@ -51,7 +51,7 @@ def getAllTheTests( wikiPrefix ){
                 "FUNCbgpls" :                   [ "basic":true, "extra_A":false, "extra_B":false, "new_Test":false, "day":"", wiki_link:wikiPrefix + "-" + "FUNCbgpls", wiki_file:"FUNCbgplsWiki.txt"  ],
                 "VPLSBasic" :                   [ "basic":true, "extra_A":false, "extra_B":false, "new_Test":false, "day":"", wiki_link:wikiPrefix + "-" + "VPLSBasic", wiki_file:"VPLSBasicWiki.txt"  ],
                 "VPLSfailsafe" :                [ "basic":true, "extra_A":false, "extra_B":false, "new_Test":false, "day":"", wiki_link:wikiPrefix + "-" + "VPLSfailsafe", wiki_file:"VPLSfailsafeWiki.txt"  ],
-                "PLATdockertest":               [ "basic":true, "extra_A":true, "extra_B":false, "new_Test":false, "day":"", wiki_link:"Docker Images sanity test", wiki_file:"PLATdockertestTableWiki.txt"  ],
+                "PLATdockertest":               [ "basic":false, "extra_A":true, "extra_B":false, "new_Test":false, "day":"", wiki_link:"Docker Images sanity test", wiki_file:"PLATdockertestTableWiki.txt"  ],
                 "SRSanity":                     [ "basic":false, "extra_A":false, "extra_B":false, "new_Test":false, "day":"", wiki_link:wikiPrefix + "-" + "SR Sanity", wiki_file:"SRSanityWiki.txt"  ],
                 "SRSwitchFailure":              [ "basic":false, "extra_A":false, "extra_B":false, "new_Test":false, "day":"", wiki_link:wikiPrefix + "-" + "SR Switch Failure", wiki_file:"SRSwitchFailureWiki.txt"  ],
                 "SRLinkFailure":                [ "basic":false, "extra_A":false, "extra_B":false, "new_Test":false, "day":"", wiki_link:wikiPrefix + "-" + "SR Link Failure", wiki_file:"SRLinkFailureWiki.txt"  ],
