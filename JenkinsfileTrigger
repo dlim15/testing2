@@ -416,6 +416,7 @@ def closeHtmlForWiki(){
 }
 def postToWiki( contents ){
     node( testMachine ){
+        now = funcs.getCurrentTime()
         workspace = "/var/jenkins/workspace/all-pipeline-trigger/"
         filename = "jenkinsSchedule.txt"
         //def file = new File( workspace + filename )
