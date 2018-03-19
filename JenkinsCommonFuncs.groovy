@@ -61,7 +61,7 @@ def printTestToRun( testList ){
   }
 }
 def sendResultToSlack( start, isManualRun, branch ){
-//  try{
+  try{
     println "yoyo"
     if( isManualRun == "false" ){
         end = getCurrentTime();
@@ -71,9 +71,9 @@ def sendResultToSlack( start, isManualRun, branch ){
                    message: testType + "-" + branch + " tests ended at: " + end.toString() + "\nTime took : " + duration )
         println "there"
     }
-//  }
-//  catch( all ){
-//    println "faillled" }
+  }
+  catch( all ){
+    println "faillled" }
 }
 def initAndRunTest( testName, testCategory ){
   // after ifconfig : ''' + borrowCell( testName ) + '''
