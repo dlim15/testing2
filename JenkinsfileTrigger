@@ -419,7 +419,7 @@ def postToWiki( contents ){
         filename = "jenkinsSchedule.txt"
         //def file = new File( workspace + filename )
         //file.setText( contents )
-        writefile file: workspace + filename, text: contents
+        writeFile file: workspace + filename, text: contents
         funcs.publishToConfluence( "false", "true",
                                    "Automated Test Schedule",
                                    workspace + filename )
