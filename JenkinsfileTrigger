@@ -221,7 +221,6 @@ def tuesday( getDay, getResult ){
     addingHeader( "USECASE" )
     USECASE_choices += adder( "USECASE", "basic", getDay, "T", getResult )
     USECASE_choices += adder( "USECASE", "extra_A", getDay, "T", getResult )
-    USECASE_choices += adder( "USECASE", "new_Test", getDay, "T", getResult )
     closingHeader( "USECASE" )
 }
 def wednesday( getDay, getResult ){
@@ -422,7 +421,7 @@ def postToWiki( contents ){
         //def file = new File( workspace + filename )
         //file.setText( contents )
         writeFile file: workspace + filename, text: contents
-        funcs.sendResultToSlack( now, manually_run, "master" )
+        funcs.sendResultToSlack( now, "false", "master" )
         funcs.publishToConfluence( "false", "true",
                                    "Automated Test Schedule",
                                    workspace + filename )
