@@ -6,6 +6,7 @@ test_lists = evaluate readTrusted( 'JenkinsTestONTests.groovy' )
 previous_version = "1.12"
 before_previous_version = "1.11"
 funcs.initializeTrend( "VM" );
+funcs.initialize( "FUNC" )
 wikiContents = ""
 testcases = [
     "FUNC" : [ tests : "" , nodeName : "VM", wikiContent : "" ],
@@ -65,9 +66,7 @@ if( !manually_run ){
                         + "\n:sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles::sparkles:" )
     */
     today = Calendar.MONDAY
-    initHtmlForWiki()
     testDivider( today )
-    closeHtmlForWiki()
     println wikiContents
     FUNC_choices =  lastCommaRemover( FUNC_choices )
     HA_choices =  lastCommaRemover( HA_choices )
@@ -119,6 +118,7 @@ if ( !manually_run ){
 def testDivider( today ){
     switch ( today ) {
         case Calendar.MONDAY:
+            initHtmlForWiki()
             monday( true )
             tuesday( true, false )
             wednesday( true, false )
@@ -127,6 +127,7 @@ def testDivider( today ){
             saturday( false, false )
             sunday( false, false )
             day = "Monday"
+            closeHtmlForWiki()
             postToWiki( wikiContents )
             //slackSend( color:'#FFD988', message:"Tests to be run this weekdays : \n" + printDaysForTest() )
             break
@@ -420,6 +421,7 @@ def postToWiki( contents ){
         //def file = new File( workspace + filename )
         //file.setText( contents )
         writeFile file: workspace + filename, text: contents
+        funcs.sendResultToSlack( now, manually_run, "master" )
         funcs.publishToConfluence( "false", "true",
                                    "Automated Test Schedule",
                                    workspace + filename )
