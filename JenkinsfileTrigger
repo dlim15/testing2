@@ -417,8 +417,9 @@ def postToWiki( contents ){
     node( testMachine ){
         workspace = "/var/jenkins/workspace/all-pipeline-trigger/"
         filename = "jenkinsSchedule.txt"
-        def file = new File( workspace + filename )
-        file.setText( contents )
+        //def file = new File( workspace + filename )
+        //file.setText( contents )
+        writefile file: workspace + filename, text: contents
         funcs.publishToConfluence( "false", "true",
                                    "Automated Test Schedule",
                                    workspace + filename )
