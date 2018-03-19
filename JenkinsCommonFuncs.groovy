@@ -65,8 +65,10 @@ def sendResultToSlack( start, isManualRun, branch ){
     if( isManualRun == "false" ){
         end = getCurrentTime();
         TimeDuration duration = TimeCategory.minus( end , start );
+        println "here"
         slackSend( color:"#5816EE",
                    message: testType + "-" + branch + " tests ended at: " + end.toString() + "\nTime took : " + duration )
+        println "there"
     }
   }
   catch( all ){}
