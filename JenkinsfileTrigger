@@ -100,8 +100,8 @@ for( String test in testcases.keySet() ){
     }
 }
 def finalList = [:]
-finalList[ "VM" ] = runTestSeq( runTest[ "VM" ] )
-finalList[ "BM" ] = runTestSeq( runTest[ "BM" ] )
+finalList[ "VM" ] = triggerFuncs.runTestSeq( runTest[ "VM" ] )
+finalList[ "BM" ] = triggerFuncs.runTestSeq( runTest[ "BM" ] )
 parallel finalList
 //finalList[ "BM" ].call()
 
