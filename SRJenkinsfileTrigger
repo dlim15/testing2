@@ -89,7 +89,7 @@ for( String test in testcases.keySet() ){
     }
 }
 def finalList = [:]
-finalList[ "Fabric" ] = runTestSeq( runTest[ "Fabric" ] )
+finalList[ "Fabric" ] = triggerFuncs.runTestSeq( runTest[ "Fabric" ] )
 parallel finalList
 /*
 if ( !manually_run ){
