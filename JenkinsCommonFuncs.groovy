@@ -1,6 +1,6 @@
 #!groovy
 import groovy.time.*
-generalFuncs = evaluate readTrusted( 'GeneralFuncs.groovy' )
+generalFuncs = evaluate readTrusted( 'TestON/JenkinsFile/GeneralFuncs.groovy' )
 
 def initializeTrend( machine ){
   table_name = "executed_test_tests"
@@ -28,7 +28,7 @@ def initialize( type ){
 def init( type ){
   machineType = [ "FUNC"    : "VM",
                   "HA"      : "VM",
-                  "SR"      : "VM",
+                  "SR"      : "Fabric",
                   "SCPF"    : "BM",
                   "USECASE" : "BM" ]
   testType = type;
@@ -62,18 +62,14 @@ def printTestToRun( testList ){
 }
 def sendResultToSlack( start, isManualRun, branch ){
   try{
-    println "yoyo"
     if( isManualRun == "false" ){
         end = getCurrentTime();
         TimeDuration duration = TimeCategory.minus( end , start );
-        println "here"
         slackSend( color:"#5816EE",
                    message: testType + "-" + branch + " tests ended at: " + end.toString() + "\nTime took : " + duration )
-        println "there"
     }
   }
-  catch( all ){
-    println "faillled" }
+  catch( all ){}
 }
 def initAndRunTest( testName, testCategory ){
   // after ifconfig : ''' + borrowCell( testName ) + '''
@@ -349,4 +345,3 @@ def branchWithPrefix( branch ){
     return ( ( branch != "master" ) ? "onos-" : "" ) + branch
 }
 return this;
-
