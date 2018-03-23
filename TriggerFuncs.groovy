@@ -1,3 +1,26 @@
+#!groovy
+
+def init( commonFuncs ){
+    funcs = commonFuncs
+}
+def lastCommaRemover( str ){
+    if ( str.size() > 0 && str[ str.size() - 1 ] == ',' ){
+        str = str.substring( 0,str.size() - 1 )
+    }
+    return str
+}
+def printDaysForTest( AllTheTests ){
+    result = ""
+    for ( String test in AllTheTests.keySet() ){
+        result += test + " : \n"
+        for( String each in AllTheTests[ test ].keySet() ){
+            AllTheTests[ test ][ each ][ "day" ] = lastCommaRemover( AllTheTests[ test ][ each ][ "day" ] )
+            result += "    " + each + ":[" + AllTheTests[ test ][ each ][ "day" ] + "]\n"
+        }
+        result += "\n"
+    }
+    return result
+}
 def runTestSeq( testList ){
     return{
         for ( test in testList.keySet() ){
@@ -13,10 +36,11 @@ def print_tests( tests ){
         }
     }
 }
-def organize_tests( tests ){
+def organize_tests( tests, testcases ){
     testList = tests.tokenize( "\n;, " )
     for( String test in testList )
         testcases [ Prefix_organizer[ ( test == "FUNCbgpls" || test == "FUNCvirNetNB" ? "US" : ( test[ 0 ] + test[ 1 ] ) ) ] ][ "tests" ] += test + ","
+    return testcases
 }
 def borrow_mn( jobOn ){
     result = ""
