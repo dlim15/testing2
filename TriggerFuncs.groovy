@@ -190,3 +190,6 @@ def returnCell( nodeName ){
             '''
     }
 }
+
+
+return this;
