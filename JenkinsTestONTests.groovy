@@ -64,9 +64,9 @@ def getAllTheTests( wikiPrefix ){
         "SR":[
                 "SRBridging":                   [ "basic":true, "extra_A":false, "extra_B":false, "new_Test":false, "day":"", wiki_link:wikiPrefix + "-" + "SR Bridging", wiki_file:"SRBridgingWiki.txt" ],
                 "SRRouting":                    [ "basic":true, "extra_A":false, "extra_B":false, "new_Test":false, "day":"", wiki_link:wikiPrefix + "-" + "SR Routing", wiki_file:"SRRoutingWiki.txt" ],
-                "SRDhcprelay":                  [ "basic":true, "extra_A":false, "extra_B":false, "new_Test":false, "day":"", wiki_link:wikiPrefix + "-" + "SR Dhcp Relay", wiki_file:"SRDhcprelay.txt" ],
-                "SRDynamicConf":                [ "basic":true, "extra_A":false, "extra_B":false, "new_Test":false, "day":"", wiki_link:wikiPrefix + "-" + "SR Dynamic Config", wiki_file:"SRDynamicConf.txt" ],
-                "SRMulticast":                  [ "basic":true, "extra_A":false, "extra_B":false, "new_Test":false, "day":"", wiki_link:wikiPrefix + "-" + "SR Multi Cast", wiki_file:"SRMulticast.txt" ]
+                "SRDhcprelay":                  [ "basic":true, "extra_A":false, "extra_B":false, "new_Test":false, "day":"", wiki_link:wikiPrefix + "-" + "SR Dhcp Relay", wiki_file:"SRDhcprelayWiki.txt" ],
+                "SRDynamicConf":                [ "basic":true, "extra_A":false, "extra_B":false, "new_Test":false, "day":"", wiki_link:wikiPrefix + "-" + "SR Dynamic Config", wiki_file:"SRDynamicConfWiki.txt" ],
+                "SRMulticast":                  [ "basic":true, "extra_A":false, "extra_B":false, "new_Test":false, "day":"", wiki_link:wikiPrefix + "-" + "SR Multi Cast", wiki_file:"SRMulticastWiki.txt" ]
         ]
     ];
 }
