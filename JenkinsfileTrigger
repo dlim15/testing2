@@ -127,7 +127,7 @@ def testDivider( today ){
             day = "Monday"
             closeHtmlForWiki()
             postToWiki( wikiContents )
-            slackSend( color:'#FFD988', message:"Tests to be run this weekdays : \n" + printDaysForTest() )
+            slackSend( color:'#FFD988', message:"Tests to be run this weekdays : \n" + triggerFuncs.printDaysForTest(AllTheTests) )
             break
         case Calendar.TUESDAY:
             tuesday( false, true )
@@ -178,7 +178,6 @@ def monday( getResult ){
     closingHeader( "USECASE" )
 }
 def tuesday( getDay, getResult ){
-
     addingHeader( "FUNC" )
     FUNC_choices += adder( "FUNC", "basic", getDay, "T", getResult )
     FUNC_choices += adder( "FUNC", "new_Test", getDay, "T", getResult )
